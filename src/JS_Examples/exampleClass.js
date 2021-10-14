@@ -6,20 +6,22 @@ import FarAwayClass from "../otherfolder/farawayclass.js";
 /* This is a long form comment, 
      it can span multiple lines!
 */
-export default class MyClass  extends OtherClass {		// “export default” is required to use the class in other classes
+export default class MyClass extends OtherClass {		// “export default” is required to use the class in other classes/scripts
 
-    constructor(myName) {			// this is how you do constructors
-        this.myName = myName; 		// now this class has a local variable
-        this.forLength = 10;        // ALL LOCAL VARIABLES MUST BE DECLARED IN THE CONSTRUCTOR LIKE THIS
+    // this is how you do constructors
+    constructor(param1, param2, myName) {	// NOTICE THE LACK OF TYPES --- types are still present, just not enforced in JS  
+        this.super(param1, param2);     // this works the same as in Java
+        this.myName = myName; 		    // now this class has a local variable
+        this.forLength = 10;            // ALL LOCAL VARIABLES MUST BE DECLARED IN THE CONSTRUCTOR LIKE THIS
         this.whileLength = 100;  
     }
 
-    getForLength() {                // it is best practice to still use getters/setters
+    getForLength() {                        // it is best practice to still use getters/setters
         return this.forLength;
     }
 
-    myMethod(myParam) {             // there is NO way to declare a type, even though types exist.
-        let i = this.whileLength;				// you declare variables with const or let const implies that its value will not change
+    myMethod(myParam) {                         // there is NO way to declare a type, even though types exist.
+        let i = this.whileLength;			// you declare variables with const or let const implies that its value will not change
         while (i > 0) {
             console.log("Hello there");		// this will print to the console
             i--;
