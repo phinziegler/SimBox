@@ -1,0 +1,11 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+#intro {
+    margin: auto;
+    width: 700px;
+}
+h1 {
+    text-align: center;
+}
