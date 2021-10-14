@@ -6,7 +6,7 @@ import FarAwayClass from "../otherfolder/farawayclass.js";
 /* This is a long form comment, 
      it can span multiple lines!
 */
-export default class MyClass {		// “export default” is required to use the class in other classes
+export default class MyClass  extends OtherClass {		// “export default” is required to use the class in other classes
 
     constructor(myName) {			// this is how you do constructors
         this.myName = myName; 		// now this class has a local variable
