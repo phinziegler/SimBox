@@ -20,7 +20,7 @@
     <!--Main area of UI, holds Canvas and Sidebar-->
     <div id="ui">
         <!--CANVAS-->
-        <canvas id="simCanvas" width="700" height="700"></canvas>
+        <canvas id="simCanvas" width="800" height="800"></canvas>
 
         <!--MENU PANEL-->
         <div id="menuPanel">
@@ -49,7 +49,7 @@
                     </label>
                     <label for="speed">
                         Speed
-                        <input id="speed"type="number">
+                        <input id="speed"type="number"step="0.01"min="0", max="10"value="1.00">
                     </label>
                 </div>
                 <button id="optionButton" class="menuButton">Options</button>
