@@ -12,14 +12,12 @@ option.addEventListener("click", () => {
     toggleMenu(optionMenu);
 });
 
+// TOGGLE MENU FUNCTION
 function toggleMenu(element) {
-    console.log(element.className);
     if(element.className == "open") {
         element.setAttribute("class", "closed");
-        //console.log("closed");
     }
     else {
         element.setAttribute("class", "open");
-        //console.log("open");
     }
 }
