@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
     <script type="module" src="src/script.js" defer></script>
+    <script src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>
     <title>SimBox</title>
 </head>
 
@@ -25,20 +26,31 @@
         <div id="menuPanel">
             <div class="menu">
                 <div id="tools" class="closed">
-                    <div>Draw Rect</div>
-                    <!--These will eventually use icons instead of text hopefully-->
-                    <div>Draw Circle</div>
-                    <div>Grab</div>
+                    <button>
+                        <i id="grab"class="far fa-hand-paper"></i> Grab
+                    </button>
+
+                    <button>
+                        <i id="circle"class="far fa-circle"></i> Circle
+                    </button>
+
+                    <button>
+                        <i class="far fa-square"></i> Rectangle
+                    </button>
                 </div>
                 <button id="toolButton" class="menuButton">Tools</button>
             </div>
 
             <div class="menu">
                 <div id="options" class="closed">
-                    <div>Option1</div>
-                    <!--These will eventually use icons instead of text hopefully-->
-                    <div>Option2</div>
-                    <div>Option3</div>
+                    <label for="pause">
+                        Pause
+                        <input id="pause"type="checkbox">
+                    </label>
+                    <label for="speed">
+                        Speed
+                        <input id="speed"type="number">
+                    </label>
                 </div>
                 <button id="optionButton" class="menuButton">Options</button>
             </div>
