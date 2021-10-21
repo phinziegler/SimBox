@@ -94,6 +94,7 @@ button {
 	line-height: 1.4rem;
 	font-size: 1rem;
 	border: 1px solid rgba(0, 0, 0, 0.336);
+	border-radius: 5px;
 }
 .open>button:hover {
 	background-color: rgb(206, 206, 206);
