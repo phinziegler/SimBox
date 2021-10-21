@@ -1,13 +1,13 @@
+// TOOL MENU
 let tool = document.getElementById("toolButton");
 let toolMenu = document.getElementById("tools");
-
-let option = document.getElementById("optionButton");
-let optionMenu = document.getElementById("options");
-
 tool.addEventListener("click", () => {
     toggleMenu(toolMenu);
 });
 
+// OPTION MENU
+let option = document.getElementById("optionButton");
+let optionMenu = document.getElementById("options");
 option.addEventListener("click", () => {
     toggleMenu(optionMenu);
 });
