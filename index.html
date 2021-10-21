@@ -5,33 +5,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css">
-    <script type="module" src="src/script.js" defer></script>
-    <script src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="style/style.css">                                              <!--STYLE IMPORT-->
+    <script type="module" src="src/script.js" defer></script>                                   <!--DOCUMENT SCRIPT-->
+    <script src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>   <!--FONT AWESOME-->
+
     <title>SimBox</title>
 </head>
 
 <body>
-    <!--INTRODUCTION-->
-    <div id="intro">
-        <h1>SimBox</h1>
-    </div>
+    <h1>SimBox</h1>
 
-    <!--Main area of UI, holds Canvas and Sidebar-->
+    <!--UI CONTAINER-->
     <div id="ui">
         <!--CANVAS-->
         <canvas id="simCanvas" width="800" height="800"></canvas>
 
         <!--MENU PANEL-->
         <div id="menuPanel">
+            <!--TOOLS-->
             <div class="menu">
                 <div id="tools" class="closed">
                     <button>
-                        <i id="grab"class="far fa-hand-paper"></i> Grab
+                        <i id="grab" class="far fa-hand-paper"></i> Grab
                     </button>
 
                     <button>
-                        <i id="circle"class="far fa-circle"></i> Circle
+                        <i id="circle" class="far fa-circle"></i> Circle
                     </button>
 
                     <button>
@@ -41,15 +42,16 @@
                 <button id="toolButton" class="menuButton">Tools</button>
             </div>
 
+            <!--OPTIONS-->
             <div class="menu">
                 <div id="options" class="closed">
                     <label for="pause">
                         Pause
-                        <input id="pause"type="checkbox">
+                        <input id="pause" type="checkbox">
                     </label>
                     <label for="speed">
                         Speed
-                        <input id="speed"type="number"step="0.01"min="0", max="10"value="1.00">
+                        <input id="speed" type="number" step="0.01" min="0" , max="10" value="1.00">
                     </label>
                 </div>
                 <button id="optionButton" class="menuButton">Options</button>
