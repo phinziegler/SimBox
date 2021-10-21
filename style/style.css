@@ -57,7 +57,7 @@ h1 {
 #tools, #options {
 	position: absolute;
 	bottom: 30px;
-	background-color: rgb(66, 66, 66);
+	background-color: rgb(126, 126, 126);
 	width: 150px;
 	line-height: 1.6rem;
 	border-radius: 5px 5px 0 0;
@@ -67,6 +67,7 @@ h1 {
 	padding: 10px;
 }
 
+/* CHANGE MOUSE STYLE ON BUTTON HOVER */
 button {
 	cursor: pointer;
 }
