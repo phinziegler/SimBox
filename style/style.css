@@ -9,3 +9,49 @@
 h1 {
     text-align: center;
 }
+
+#ui {
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	left: 50%;
+	transform: translateX(-50%);
+	background: red;
+
+}
+
+#simCanvas {
+	background-color: rgb(219, 219, 219);
+}
+
+#menuPanel {
+	height: 50px;
+	width: 700px;
+	background-color: grey;
+}
+
+.open {
+	display: flex;
+	flex-direction: column-reverse;
+}
+.closed {
+	display: none;
+}
+
+#tools, #options {
+	position: absolute;
+	bottom: 50px;
+	background-color: rgb(196, 196, 196);
+	width: 200px;
+	line-height: 1.6rem;
+
+}
+
+.menuButton {
+	width: 100px;
+	text-align: center;
+}
