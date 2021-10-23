@@ -32,19 +32,65 @@
             <div class="menu">
                 <div id="tools" class="closed">
 
-                    <!--GRAB-->
-                    <button>
-                        <i id="grab" class="far fa-hand-paper"></i> Grab
+                    <!--SELECT-->
+                    <button id="select">
+                        <i class="fas fa-mouse-pointer"></i> Select
                     </button>
 
+                    <!--GRAB-->
+                    <button id="grab">
+                        <i class="fas fa-hand-paper"></i> Grab
+                    </button>
+
+                    <hr>
+
                     <!--CIRCLE-->
-                    <button>
-                        <i id="circle" class="far fa-circle"></i> Circle
+                    <button id="circle">
+                        <i class="fas fa-circle"></i> Circle
                     </button>
 
                     <!--RECTANGLE-->
-                    <button>
-                        <i id="rectangle" class="far fa-square"></i> Rectangle
+                    <button id="rectangle">
+                        <i class="fas fa-square"></i></i> Rectangle
+                    </button>
+
+                    <hr>
+
+                    <!--ADD CLOTH NODE-->
+                    <button id="clothNode">
+                        <i class="fas fa-dot-circle"></i> Cloth Node
+                    </button>
+
+                    <!--ADD CLOTH EDGE-->
+                    <button id="clothEdge">
+                        <i class="fas fa-link"></i> Cloth Edge
+                    </button>
+
+                    <!--PIN / UNPIN-->
+                    <button id="pin-unpin">
+                        <i class="fas fa-thumbtack"></i> Pin/Unpin
+                    </button>
+
+                    <!--Cut Edge-->
+                    <button id="cutEdge">
+                        <i class="fas fa-cut"></i></i> Cut Edge
+                    </button>
+
+                    <hr>
+
+                    <!--ADD FLUID-->
+                    <button id="addFluid">
+                        <i class="fas fa-tint"></i> Add Fluid
+                    </button>
+
+                    <!--REMOVE FLUID-->
+                    <button id="removeFluid">
+                        <i class="fas fa-tint-slash"></i> Undo Fluid
+                    </button>
+
+                    <!--MOVE FLUID-->
+                    <button id="moveFluid">
+                        <i class="fas fa-hand-holding-water"></i> Move Fluid
                     </button>
                 </div>
 
@@ -67,6 +113,12 @@
                         Speed 
                         <input id="speed" type="number" step="0.01" min="0" , max="10" value="1.00">
                     </label>
+
+                    <label for="gravity">
+                        Gravity
+                        <input id="gavity" type="number" step="0.01" min="-100" , max="100" value="-9.81">
+                    </label>
+
                 </div>
 
                 <!--TOGGLE OPTION BUTTON-->
