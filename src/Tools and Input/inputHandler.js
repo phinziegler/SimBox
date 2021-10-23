@@ -10,7 +10,7 @@ export default class InputHandler {
         });
     }
 
-    // DO TOOL ACTION AT MOUSE LOCATION
+    // DO TOOL ACTION AT MOUSE LOCATION -- relies on ENGINE and makes calls there.
     click(posVec) {
         throw new Error("click() unimplemented");
     }
