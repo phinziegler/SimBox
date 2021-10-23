@@ -17,11 +17,14 @@ export default class InputHandler {
 
     /* RETURNS A VECTOR(X,Y) OF THE POSITION OF MOUSE OVER THE CANVAS
     https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas*/
-    mouseLocation() {
-        var rect = canvas.getBoundingClientRect(),  // abs. size of element
-        scaleX = canvas.width / rect.width,         // relationship bitmap vs. element for X
-        scaleY = canvas.height / rect.height;       // relationship bitmap vs. element for Y
+    mouseLocation(e) {
+        let rect = this.canvas.getBoundingClientRect();  // abs. size of element
+        let scaleX = this.canvas.width / rect.width;         // relationship bitmap vs. element for X
+        let scaleY = this.canvas.height / rect.height;       // relationship bitmap vs. element for Y
   
-    return new Vector((evt.clientX - rect.left) * scaleX, (evt.clientY - rect.top) * scaleY);
+        let pos = new Vector(Math.floor((e.clientX - rect.left) * scaleX) + 1, Math.floor((e.clientY - rect.top) * scaleY) + 1);
+
+        console.log(pos.getX() + ", " + pos.getY());
+        return pos;
     }
 }
