@@ -1,17 +1,25 @@
 export default class Options {
     constructor() {
 
-        this.list = Array.from(document.querySelectorAll(".menuOption"));
-        for(let i = 0; i < this.list.length; i++) {
-            this.list[i].addEventListener("click", () => {
-                this.setActiveTool(this.list[i].id);
-            });
-        }
-        this.activeTool = "select";
+        this.speedButton = document.getElementById("speed");
+        this.gravityButton = document.getElementById("gravity");
+        this.isPausedButton = document.getElementById("pause");
 
-        this.speed;
-        this.gravity;
-        this.isPaused;
+        this.speedButton.addEventListener("oninput", () => {
+            this.speed = speedButton.value;
+            console.log(this.speed + "YEET");
+        });
+
+        this.gravityButton.addEventListener("oninput", () => {
+            this.gravity = gravityButton.value;
+            console.log(this.gravity + "YEET");
+        });
+
+        this.isPausedButton.addEventListener("oninput", () => {
+            this.isPaused = isPausedButton.value;
+            console.log(this.isPaused+ "YEET");
+        });
+
     }
 
     getSpeed() {
