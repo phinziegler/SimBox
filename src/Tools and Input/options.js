@@ -1,36 +1,20 @@
 export default class Options {
     constructor() {
-
-        this.speedButton = document.getElementById("speed");
-        this.gravityButton = document.getElementById("gravity");
-        this.isPausedButton = document.getElementById("pause");
-
-        this.speedButton.addEventListener("oninput", () => {
-            this.speed = speedButton.value;
-            console.log(this.speed + "YEET");
-        });
-
-        this.gravityButton.addEventListener("oninput", () => {
-            this.gravity = gravityButton.value;
-            console.log(this.gravity + "YEET");
-        });
-
-        this.isPausedButton.addEventListener("oninput", () => {
-            this.isPaused = isPausedButton.value;
-            console.log(this.isPaused+ "YEET");
-        });
-
+        // NO NEED FOR A CONSTRUCTOR
     }
 
     getSpeed() {
-        throw new Error("getSpeed() unimplemented");
+        let speed = document.getElementById("speed").value;
+        return speed;
     }
 
     getGravity() {
-        throw new Error("getGravity() unimplemented");
+        let gravity = document.getElementById("gravity").value;
+        return gravity;
     }
-
+    
     isPaused() {
-        throw new Error("isPaused() unimplemented");
+        let isPaused = document.getElementById("pause").checked;
+        return isPaused;
     }
 }

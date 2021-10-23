@@ -5,5 +5,5 @@ import Tools from "./Tools and Input/tool.js";
 
 // USE THIS TO INSTANTIATE CLASSES
 new InputHandler();
-new Tools();
-new Options();
+let tool = new Tools();
+let option = new Options();
