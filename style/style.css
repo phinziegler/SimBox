@@ -111,6 +111,12 @@ button {
 	background-color: rgb(134, 134, 134);
 }
 
+.open > hr {
+	width: 100%;
+	border: none;
+	border-top: 1px solid rgba(0, 0, 0, 0.185);
+}
+
 /* THE LOOK OF OPTION MENU ITEMS */
 label {
 	font-size: 1rem;
