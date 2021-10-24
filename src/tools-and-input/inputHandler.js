@@ -5,8 +5,8 @@ import Tools from "./tool.js";
 /* Tracks the location of the mouse, clicks, drags, and keyboard presses on 
 the simulation area of the webpage. */
 export default class InputHandler {
-    constructor() {
-        this.canvas = document.getElementById("simulationCanvas");
+    constructor(canvas) {
+        this.canvas = canvas;
         this.canvas.addEventListener("mousedown", (e) => {
             this.click(this.mouseLocation(e));
         });
