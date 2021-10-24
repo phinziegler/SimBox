@@ -1,9 +1,11 @@
 import InputHandler from "./Tools and Input/inputHandler.js";
-import PhysicsEngine from "./PhysicsEngine.js";
+import Simulator from "./simulator.js";
 
-// USE THIS TO INSTANTIATE CLASSES
+const simulationCanvas = document.getElementById("simulationCanvas");
+
+// Instantiate primary objects.
 new InputHandler
-new PhysicsEngine
+new Simulator(simulationCanvas);
 
 
 // TOGGLE MENU FUNCTION
