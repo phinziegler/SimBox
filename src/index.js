@@ -1,4 +1,4 @@
-import InputHandler from "./Tools and Input/inputHandler.js";
+import InputHandler from "./tools-and-input/input-handler.js";
 import Simulator from "./simulator.js";
 
 const simulationCanvas = document.getElementById("simulationCanvas");

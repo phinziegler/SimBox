@@ -1,4 +1,4 @@
-import PhysicsObject from "./PhysicsObject.js";
+import PhysicsObject from "./physics-object.js";
 
 export default class RigidBody extends PhysicsObject {
 

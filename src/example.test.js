@@ -1,4 +1,4 @@
-import RigidBody from "./RigidBody.js";
+import RigidBody from "./rigidbody.js";
 
 describe("PhysicsObject", () => {
   test("should set mass through constructor", () => {

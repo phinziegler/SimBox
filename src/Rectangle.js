@@ -1,4 +1,4 @@
-import RigidBody from "./RigidBody.js";
+import RigidBody from "./rigidbody.js";
 
 export default class Rectangle extends RigidBody {
 
