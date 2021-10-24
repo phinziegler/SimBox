@@ -6,7 +6,7 @@ import Tools from "./tool.js";
 the simulation area of the webpage. */
 export default class InputHandler {
     constructor() {
-        this.canvas = document.getElementById("simCanvas");
+        this.canvas = document.getElementById("simulationCanvas");
         this.canvas.addEventListener("mousedown", (e) => {
             this.click(this.mouseLocation(e));
         });
@@ -71,11 +71,11 @@ export default class InputHandler {
         let tool = this.tool.getActiveTool();
         switch (tool) {
             case "rectangle":
-                console.log("Rectangle: (" + startPos.getX() + ", " + startPos.getY() + ") to (" + endPos.getX() + ", " + endPos.getY() + ")");
+                console.log("Rectangle: (" + startPos.x + ", " + startPos.y + ") to (" + endPos.x + ", " + endPos.y + ")");
                 break;
 
             case "circle":
-                console.log("Circle: (" + startPos.getX() + ", " + startPos.getY() + ") to (" + endPos.getX() + ", " + endPos.getY() + ")");
+                console.log("Circle: (" + startPos.x + ", " + startPos.y + ") to (" + endPos.x + ", " + endPos.y + ")");
                 break;
 
             case "select":

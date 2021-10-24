@@ -1,17 +1,20 @@
 export default class Options {
     constructor() {
-
+        // NO NEED FOR A CONSTRUCTOR
     }
 
     getSpeed() {
-        throw new Error("getSpeed() unimplemented");
+        let speed = document.getElementById("speed").value;
+        return speed;
     }
 
     getGravity() {
-        throw new Error("getGravity() unimplemented");
+        let gravity = document.getElementById("gravity").value;
+        return gravity;
     }
-
+    
     isPaused() {
-        throw new Error("isPaused() unimplemented");
+        let isPaused = document.getElementById("pause").checked;
+        return isPaused;
     }
 }

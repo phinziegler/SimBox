@@ -1,10 +1,11 @@
-import InputHandler from "./tools-and-input/input-handler.js";
+
 import Simulator from "./simulator.js";
+import InputHandler from "./tools-and-input/inputHandler.js";
 
 const simulationCanvas = document.getElementById("simulationCanvas");
 
 // Instantiate primary objects.
-new InputHandler
+new InputHandler();
 new Simulator(simulationCanvas);
 
 
