@@ -1,6 +1,7 @@
 import Vector from "./vector.js";
 import SimulatedObject from "./simulated-object.js";
-
+import Box from "./simulated-object-bodies/box.js";
+import Circle from "./simulated-object-bodies/circle.js";
 
 /**
  * A physics simulator that serves as the main coordinator for a physics simulation.
@@ -80,13 +81,16 @@ export default class Simulator {
   }
   
   /**
-   * Adds simulated objects for visual confirmation.
+   * Adds simulated objects for visual confirmation of functionality.
    */
   debugAddSimulatedObjects() {
-    var box = new SimulatedObject(this.physicsWorld, new Vector((this.renderer.width/2)*Simulator.pixelsToMetersScalar, (this.renderer.height/2)*Simulator.pixelsToMetersScalar), new Vector(795, 100));
-    var box2 = new SimulatedObject(this.physicsWorld, new Vector((this.renderer.width - 50)*Simulator.pixelsToMetersScalar, 0), new Vector(50, 100));
+    const centerOfScreenPos = new Vector((this.renderer.width/2)*Simulator.pixelsToMetersScalar, (this.renderer.height/2)*Simulator.pixelsToMetersScalar);
+    const topRightOfScreenPos = new Vector((this.renderer.width)*Simulator.pixelsToMetersScalar, (this.renderer.height)*Simulator.pixelsToMetersScalar);
+
+    var box = new SimulatedObject(this.physicsWorld, centerOfScreenPos, new Box(790, 100, 0xFFFFFF));
+    var circle = new SimulatedObject(this.physicsWorld, topRightOfScreenPos, new Circle(100, 0x00FFFF));
     this.addSimulatedObject(box);
-    this.addSimulatedObject(box2);
+    this.addSimulatedObject(circle);
   }
 
   /**
@@ -105,12 +109,12 @@ export default class Simulator {
   simulationStep(timeStamp) {
     var deltaTime = timeStamp - this.lastStepTimeStamp;
     this.lastStepTimeStamp = timeStamp;
-      //console.log("step deltatime: " + deltaTime);
-      this.physicsWorld.step(deltaTime / 1000);
-      for (const simulatedObject of this.simulatedObjects)
-        simulatedObject.updateRenderTransform(this.simulationAreaSize);
-      this.renderSimulation();
-      requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
+    //console.log("step deltatime: " + deltaTime);
+    this.physicsWorld.step(deltaTime / 1000);
+    for (const simulatedObject of this.simulatedObjects)
+      simulatedObject.updateRenderTransform(this.simulationAreaSize);
+    this.renderSimulation();
+    requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
   }
 
   /**

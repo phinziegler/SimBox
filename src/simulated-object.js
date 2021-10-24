@@ -1,5 +1,4 @@
 import Vector from "./vector.js";
-import Simulator from "./simulator.js";
 
 /**
  * A simulated object of the physics simulation.
@@ -7,28 +6,15 @@ import Simulator from "./simulator.js";
 export default class SimulatedObject {
   /**
    * Create a simulated object.
-   * @param {*} physicsWorld The Planck.js physics world to create the physics object in.
-   * @param {Vector} pos The position to create the simulated object at.
-   * @param {Vector} size The size of the simulated object.
    */
-  constructor(physicsWorld, pos, size) {
+  constructor(physicsWorld, pos, simulatedObjectBody) {
+    this.simulatedObjectBody = simulatedObjectBody;
+
     this.physicsObject = physicsWorld.createDynamicBody(planck.Vec2(pos.x, pos.y));
-    this.physicsObject.createFixture(planck.Box((size.x/2)*Simulator.pixelsToMetersScalar, (size.y/2)*Simulator.pixelsToMetersScalar));
-
-    this.renderSprite = new PIXI.Graphics();
+    this.physicsObject.createFixture(simulatedObjectBody.getPhysicsEngineObject());
     
-    this.renderSprite.beginFill(0xFFFFFF);
-    this.renderSprite.lineStyle(0, 0x000000);
-
-    this.renderSprite.drawRect(0, 0, size.x, size.y);
-    this.renderSprite.endFill();
-    this.renderSprite.pivot.x = this.renderSprite.width / 2;
-    this.renderSprite.pivot.y = this.renderSprite.height / 2;
-
     this.renderContainer = new PIXI.Container();
-    this.renderContainer.addChild(this.renderSprite);
-    //this.renderContainer.pivot.x = this.renderContainer.x / 2;
-    //this.renderContainer.pivot.y = this.renderContainer.y / 2;
+    this.renderContainer.addChild(simulatedObjectBody.drawGraphicsObject());
   }
 
   /**
