@@ -33,12 +33,21 @@ export default class Vector {
     }
 
     /**
-     * Gets the render position in pixel coordinates of this Vector in the simulation space.
+     * Gets the screen position in pixel coordinates of this Vector in the simulation space.
      * @param {Vector} simulationAreaSize The size in pixels of the simulation area.
-     * @returns {Vector} This vector transformed from simulation to pixel space. 
+     * @returns {Vector} This vector transformed from simulation to screen space. 
      */
-    simulationToRenderPos(simulationAreaSize) {
-        return new Vector(this.x * Simulator.metersToPixelsScalar, simulationAreaSize.y - this.y * Simulator.metersToPixelsScalar);
+    simulationToScreenPos(simulationAreaSize) {
+        return new Vector(this.x * Simulator.metersToPixelsScalar, simulationAreaSize.y - (this.y * Simulator.metersToPixelsScalar));
+    }
+    
+    /**
+     * Gets the simulation position of this Vector in the screen space.
+     * @param {Vector} simulationAreaSize The size in pixels of the simulation area.
+     * @returns {Vector} This vector transformed from screen to simulation space.
+     */
+    screenToSimulationPos(simulationAreaSize) {
+        return new Vector(this.x * Simulator.pixelsToMetersScalar, (simulationAreaSize.y - this.y) * Simulator.pixelsToMetersScalar)
     }
 
 

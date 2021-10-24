@@ -1,3 +1,4 @@
+import SimulatedObjectBody from "./simulated-object-bodies/simulated-object-body.js";
 import Vector from "./vector.js";
 
 /**
@@ -6,11 +7,14 @@ import Vector from "./vector.js";
 export default class SimulatedObject {
   /**
    * Create a simulated object.
+   * @param {*} physicsWorld 
+   * @param {Vector} simulationPos Position in simulation space to construct the simulated object at.
+   * @param {SimulatedObjectBody} simulatedObjectBody The simulated object body that defines the body of the simulated object. 
    */
-  constructor(physicsWorld, pos, simulatedObjectBody) {
+  constructor(physicsWorld, simulationPos, simulatedObjectBody) {
     this.simulatedObjectBody = simulatedObjectBody;
 
-    this.physicsObject = physicsWorld.createDynamicBody(planck.Vec2(pos.x, pos.y));
+    this.physicsObject = physicsWorld.createDynamicBody(planck.Vec2(simulationPos.x, simulationPos.y));
     this.physicsObject.createFixture(simulatedObjectBody.getPhysicsEngineObject());
     
     this.renderContainer = new PIXI.Container();
@@ -24,7 +28,7 @@ export default class SimulatedObject {
   updateRenderTransform(simulationAreaSize){
     // Update position.
     var simulationPos = Vector.fromObject(this.physicsObject.getPosition());
-    var renderPos = simulationPos.simulationToRenderPos(simulationAreaSize);
+    var renderPos = simulationPos.simulationToScreenPos(simulationAreaSize);
     this.renderContainer.x = renderPos.x;
     this.renderContainer.y = renderPos.y;
 

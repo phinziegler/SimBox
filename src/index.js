@@ -1,12 +1,13 @@
 
 import Simulator from "./simulator.js";
-import InputHandler from "./tools-and-input/inputHandler.js";
+import InputHandler from "./tools-and-input/input-handler.js";
 
 const simulationCanvas = document.getElementById("simulationCanvas");
 
 // Instantiate primary objects.
-new InputHandler(simulationCanvas);
-new Simulator(simulationCanvas);
+const simulator = new Simulator(simulationCanvas);
+new InputHandler(simulator);
+
 
 
 // TOGGLE MENU FUNCTION

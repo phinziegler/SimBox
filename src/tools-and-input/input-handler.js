@@ -1,12 +1,21 @@
 import Vector from "../vector.js";
 import Options from "./options.js";
 import Tools from "./tool.js";
+import Box from "../simulated-object-bodies/box.js";
 
 /* Tracks the location of the mouse, clicks, drags, and keyboard presses on 
 the simulation area of the webpage. */
 export default class InputHandler {
-    constructor(canvas) {
-        this.canvas = canvas;
+    constructor(simulator) {
+        /**
+         * The canvas element that the InputHandler listens to.
+         */
+        this.canvas = simulator.canvas;
+        /**
+         * The simulator that the InputHandler serves.
+         */
+        this.simulator = simulator;
+        this.canvas = document.getElementById("simulationCanvas");
         this.canvas.addEventListener("mousedown", (e) => {
             this.click(this.mouseLocation(e));
         });
@@ -69,9 +78,12 @@ export default class InputHandler {
     unclick(startPos, endPos, signal) {
         signal.abort();
         let tool = this.tool.getActiveTool();
+        const centerDragAreaPos = new Vector((startPos.x + endPos.x)/2, (startPos.y + endPos.y)/2);
+        const dragAreaSize = new Vector(Math.abs(endPos.x - startPos.x), Math.abs(endPos.y - startPos.y));
         switch (tool) {
             case "rectangle":
-                console.log("Rectangle: (" + startPos.x + ", " + startPos.y + ") to (" + endPos.x + ", " + endPos.y + ")");
+                console.log(`Rectangle: ${startPos} to ${endPos}\nCentered at: ${centerDragAreaPos}\nSize: ${dragAreaSize}`);
+                this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, 0xFFFFFF));
                 break;
 
             case "circle":

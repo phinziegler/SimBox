@@ -2,6 +2,7 @@ import Vector from "./vector.js";
 import SimulatedObject from "./simulated-object.js";
 import Box from "./simulated-object-bodies/box.js";
 import Circle from "./simulated-object-bodies/circle.js";
+import SimulatedObjectBody from "./simulated-object-bodies/simulated-object-body.js";
 
 /**
  * A physics simulator that serves as the main coordinator for a physics simulation.
@@ -84,13 +85,21 @@ export default class Simulator {
    * Adds simulated objects for visual confirmation of functionality.
    */
   debugAddSimulatedObjects() {
-    const centerOfScreenPos = new Vector((this.renderer.width/2)*Simulator.pixelsToMetersScalar, (this.renderer.height/2)*Simulator.pixelsToMetersScalar);
-    const topRightOfScreenPos = new Vector((this.renderer.width)*Simulator.pixelsToMetersScalar, (this.renderer.height)*Simulator.pixelsToMetersScalar);
+    const centerOfScreenPos = new Vector((this.renderer.width/2), (this.renderer.height/2));
+    const topRightOfScreenPos = new Vector((this.renderer.width), 0);
 
-    var box = new SimulatedObject(this.physicsWorld, centerOfScreenPos, new Box(790, 100, 0xFFFFFF));
-    var circle = new SimulatedObject(this.physicsWorld, topRightOfScreenPos, new Circle(100, 0x00FFFF));
-    this.addSimulatedObject(box);
-    this.addSimulatedObject(circle);
+    this.addSimulatedObject(centerOfScreenPos, new Box(790, 100, 0xFFFFFF));
+    this.addSimulatedObject(topRightOfScreenPos, new Circle(100, 0x00FFFF));
+  }
+  
+  /**
+   * Adds a simulated object of a given simulated object body at a specified position.
+   * @param {Vector} screenPos The position in screen space to add the object.
+   * @param {SimulatedObjectBody} simulatedObjectBody The simulated object body to make up the object.
+   */
+  addSimulatedObject(screenPos, simulatedObjectBody) {
+    const simulationPos = screenPos.screenToSimulationPos(this.simulationAreaSize);
+    this.addSimulatedObjectInternal(new SimulatedObject(this.physicsWorld, simulationPos, simulatedObjectBody));
   }
 
   /**
@@ -128,7 +137,7 @@ export default class Simulator {
    * Adds a simulated object to the simulation.
    * @param {SimulatedObject} simulatedObject 
    */
-  addSimulatedObject(simulatedObject) {
+  addSimulatedObjectInternal(simulatedObject) {
     this.simulatedObjects.push(simulatedObject);
     this.renderObjectsContainer.addChild(simulatedObject.renderContainer);
   }
