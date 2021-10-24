@@ -13,6 +13,7 @@ export default class Tools {
 
         // THE CURRENT ACTIVE TOOL -- rectangle by default
         this.activeTool = "rectangle";
+        this.activeTool = "circle";
     }
 
     setActiveTool(tool) {

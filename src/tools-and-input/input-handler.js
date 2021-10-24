@@ -2,6 +2,7 @@ import Vector from "../vector.js";
 import Options from "./options.js";
 import Tools from "./tool.js";
 import Box from "../simulated-object-bodies/box.js";
+import Circle from "../simulated-object-bodies/circle.js";
 
 /* Tracks the location of the mouse, clicks, drags, and keyboard presses on 
 the simulation area of the webpage. */
@@ -78,7 +79,10 @@ export default class InputHandler {
     unclick(startPos, endPos, signal) {
         signal.abort();
         let tool = this.tool.getActiveTool();
-        const centerDragAreaPos = new Vector((startPos.x + endPos.x)/2, (startPos.y + endPos.y)/2);
+        //const minPos = new Vector(Math.min(startPos.x, endPos.x), Math.min(startPos.y, endPos.y));
+        //const maxPos = new Vector(Math.max(startPos.x, endPos.x), Math.max(startPos.y, endPos.y));
+        const startToEndDragDirection = new Vector(Math.sign(endPos.x - startPos.x), Math.sign(endPos.y - startPos.y));
+        const centerDragAreaPos = new Vector((endPos.x + endPos.x)/2, (endPos.y + endPos.y)/2);
         const dragAreaSize = new Vector(Math.abs(endPos.x - startPos.x), Math.abs(endPos.y - startPos.y));
         switch (tool) {
             case "rectangle":
@@ -87,7 +91,10 @@ export default class InputHandler {
                 break;
 
             case "circle":
-                console.log("Circle: (" + startPos.x + ", " + startPos.y + ") to (" + endPos.x + ", " + endPos.y + ")");
+                const circleRadius = Math.min(dragAreaSize.x, dragAreaSize.y)/2;
+                const circleCenterPos = new Vector(endPos.x - (circleRadius * startToEndDragDirection.x), endPos.y - (circleRadius * startToEndDragDirection.y));
+                console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
+                this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, 0xFFFFFF));
                 break;
 
             case "select":
