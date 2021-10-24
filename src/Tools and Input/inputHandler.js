@@ -10,10 +10,9 @@ export default class InputHandler {
         this.canvas.addEventListener("mousedown", (e) => {
             this.click(this.mouseLocation(e));
         });
-        this.canvas.addEventListener("mouseup", (e) => {
-            this.click(this.mouseLocation(e));
-        });
-
+        // this.canvas.addEventListener("mouseup", (e) => {
+        //     this.unclick(this.mouseLocation(e));
+        // });
 
         this.tool = new Tools();        // THE TOOLS ARE STORED IN THE INPUT HANDLER
         this.option = new Options();    // THE OPTIONS ARE STORED IN THE INPUT HANDLER
@@ -22,11 +21,92 @@ export default class InputHandler {
     // DO TOOL ACTION AT MOUSE LOCATION -- relies on ENGINE and makes calls there.
     click(posVector) {
         // engine.click(this.tool.getActiveTool(), posVector);
-        throw new Error("click() unimplemented");
+        let tool = this.tool.getActiveTool();
+        switch(tool) {
+            case "rectangle":
+                //hrow new Error(tool + " tool unimplemented");
+                let start = posVector;
+                this.canvas.addEventListener("mouseup", (e) => {
+                    this.unclick(start, this.mouseLocation(e));
+                });
+                break;
+            case "circle":
+                throw new Error(tool + " tool unimplemented");
+                break;
+
+            case "select":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "grab":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "clothNode":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "clothEdge":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "pinUnpin":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "cutEdge":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "addFluid":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "removeFluid":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "moveFluid":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            default:
+                throw new Error(tool + " tool does not exist");
+                break;
+        }
     }
-    unclick(posVector) {
-        // engine.unclick(this.tool.getActiveTool(), posVector);
-        throw new Error("click() unimplemented");
+    unclick(startPos, endPos) {
+        let tool = this.tool.getActiveTool();
+        switch(tool) {
+            case "rectangle":
+                console.log("Rectangle: (" + startPos.getX() + ", " + startPos.getY() + ") to (" + endPos.getX() + ", " + endPos.getY() + ")");
+                break;
+            case "circle":
+                throw new Error(tool + " tool unimplemented");
+                break;
+
+            case "select":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "grab":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "clothNode":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "clothEdge":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "pinUnpin":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "cutEdge":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "addFluid":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "removeFluid":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            case "moveFluid":
+                throw new Error(tool + " tool unimplemented");
+                break;
+            default:
+                throw new Error(tool + " tool does not exist");
+                break;
+        }
     }
 
     /* RETURNS A VECTOR(X,Y) OF THE POSITION OF MOUSE OVER THE CANVAS
