@@ -4,7 +4,7 @@ import Vector from "../vector.js";
 the simulation area of the webpage. */
 export default class InputHandler {
     constructor() {
-        this.canvas = document.getElementById("simCanvas");
+        this.canvas = document.getElementById("simulationCanvas");
         this.canvas.addEventListener("click", (e) => {
             this.click(this.mouseLocation(e));
         });
