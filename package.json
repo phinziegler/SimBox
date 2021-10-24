@@ -1,0 +1,27 @@
+{
+  "name": "SimBox",
+  "description": "this is where we would write about something",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "jest": {
+    "collectCoverage": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phinziegler/SimBox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phinziegler/SimBox/issues"
+  },
+  "homepage": "https://github.com/phinziegler/SimBox#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.15.8",
+    "jest": "^27.3.1"
+  }
+}
