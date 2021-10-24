@@ -10,9 +10,6 @@ export default class InputHandler {
         this.canvas.addEventListener("mousedown", (e) => {
             this.click(this.mouseLocation(e));
         });
-        // this.canvas.addEventListener("mouseup", (e) => {
-        //     this.unclick(this.mouseLocation(e));
-        // });
 
         this.tool = new Tools();        // THE TOOLS ARE STORED IN THE INPUT HANDLER
         this.option = new Options();    // THE OPTIONS ARE STORED IN THE INPUT HANDLER
@@ -22,16 +19,19 @@ export default class InputHandler {
     click(posVector) {
         // engine.click(this.tool.getActiveTool(), posVector);
         let tool = this.tool.getActiveTool();
-        switch(tool) {
+        let abortSignal = new AbortController(); // THIS ALLOWS AN EVENT LISTENER TO BE ABORTED -- solves issue with event firing twice
+
+        switch (tool) {
             case "rectangle":
-                //hrow new Error(tool + " tool unimplemented");
-                let start = posVector;
                 this.canvas.addEventListener("mouseup", (e) => {
-                    this.unclick(start, this.mouseLocation(e));
-                });
+                    this.unclick(posVector, this.mouseLocation(e), abortSignal);
+                },{ signal: abortSignal.signal});
                 break;
+
             case "circle":
-                throw new Error(tool + " tool unimplemented");
+                this.canvas.addEventListener("mouseup", (e) => {
+                    this.unclick(posVector, this.mouseLocation(e), abortSignal);
+                },{ signal: abortSignal.signal});
                 break;
 
             case "select":
@@ -66,14 +66,16 @@ export default class InputHandler {
                 break;
         }
     }
-    unclick(startPos, endPos) {
+    unclick(startPos, endPos, signal) {
+        signal.abort();
         let tool = this.tool.getActiveTool();
-        switch(tool) {
+        switch (tool) {
             case "rectangle":
                 console.log("Rectangle: (" + startPos.getX() + ", " + startPos.getY() + ") to (" + endPos.getX() + ", " + endPos.getY() + ")");
                 break;
+
             case "circle":
-                throw new Error(tool + " tool unimplemented");
+                console.log("Circle: (" + startPos.getX() + ", " + startPos.getY() + ") to (" + endPos.getX() + ", " + endPos.getY() + ")");
                 break;
 
             case "select":
@@ -107,6 +109,7 @@ export default class InputHandler {
                 throw new Error(tool + " tool does not exist");
                 break;
         }
+
     }
 
     /* RETURNS A VECTOR(X,Y) OF THE POSITION OF MOUSE OVER THE CANVAS
@@ -115,10 +118,10 @@ export default class InputHandler {
         let rect = this.canvas.getBoundingClientRect();  // abs. size of element
         let scaleX = this.canvas.width / rect.width;         // relationship bitmap vs. element for X
         let scaleY = this.canvas.height / rect.height;       // relationship bitmap vs. element for Y
-  
+
         let pos = new Vector(Math.floor((e.clientX - rect.left) * scaleX) + 1, Math.floor((e.clientY - rect.top) * scaleY) + 1);
 
-        console.log(pos.getX() + ", " + pos.getY());
+        //console.log(pos.getX() + ", " + pos.getY());
         return pos;
     }
 }
