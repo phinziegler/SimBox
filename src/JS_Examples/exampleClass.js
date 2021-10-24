@@ -15,7 +15,7 @@ export default class MyClass extends OtherClass {		// “export default” is re
         this.forLength = 10;            // ALL LOCAL VARIABLES MUST BE DECLARED IN THE CONSTRUCTOR LIKE THIS
         this.whileLength = 100;  
     }
-
+//length of tool 
     getForLength() {                        // it is best practice to still use getters/setters
         return this.forLength;
     }
