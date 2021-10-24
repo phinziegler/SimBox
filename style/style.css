@@ -96,7 +96,7 @@ button {
 }
 
 /* THE LOOK OF TOOL MENU ITEMS */
-.open > button {
+.menuToolButton {
 	background-color: rgb(230, 230, 230);
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -106,7 +106,7 @@ button {
 	border: 1px solid rgba(0, 0, 0, 0.336);
 	border-radius: 5px;
 }
-.open > button:hover {
+.menuToolButton:hover {
 	color: white;
 	background-color: rgb(134, 134, 134);
 }

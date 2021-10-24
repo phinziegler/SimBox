@@ -11,9 +11,12 @@
 
     <!--LINKS AND SCRIPTS-->
     <link rel="stylesheet" href="style/style.css">                                              <!--STYLE IMPORT-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!--jQuery-->
     <script type="module" src="src/menus.js" defer></script>                                   <!--MENU JAVASCRIPT-->
-    <script type="module" src="src/script.js" defer></script>   
+    <script type="module" src="src/index.js" defer></script>   
     <script src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>   <!--FONT AWESOME-->
+    <script src="https://cdn.jsdelivr.net/npm/planck-js@0.2.7/dist/planck-with-testbed.min.js" crossorigin="anonymous"></script>   <!--PLANCK-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.1.3/browser/pixi.min.js" integrity="sha512-UTxnPBSU6H9cK/irQEDwJ3y3FfmuOvwYZnOZkgdWxGjKO2uL2B511mkocNj4UkoXXA8GHHEXZQ81hG09mBCZKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!--PixiJS (Rendering library)-->
 
     <title>SimBox</title>
 </head>
@@ -25,7 +28,7 @@
     <!--UI CONTAINER-->
     <div id="ui">
         <!--CANVAS-->
-        <canvas id="simCanvas" width="800" height="800"></canvas>
+        <canvas id="simulationCanvas"></canvas>
 
         <!--MENU PANEL-->
         <div id="menuPanel">
@@ -34,63 +37,63 @@
                 <div id="tools" class="closed">
 
                     <!--SELECT-->
-                    <button id="select">
+                    <button id="select"class="menuToolButton">
                         <i class="fas fa-mouse-pointer"></i> Select
                     </button>
 
                     <!--GRAB-->
-                    <button id="grab">
+                    <button id="grab"class="menuToolButton">
                         <i class="fas fa-hand-paper"></i> Grab
                     </button>
 
                     <hr>
 
                     <!--CIRCLE-->
-                    <button id="circle">
+                    <button id="circle"class="menuToolButton">
                         <i class="fas fa-circle"></i> Circle
                     </button>
 
                     <!--RECTANGLE-->
-                    <button id="rectangle">
+                    <button id="rectangle"class="menuToolButton">
                         <i class="fas fa-square"></i></i> Rectangle
                     </button>
 
                     <hr>
 
                     <!--ADD CLOTH NODE-->
-                    <button id="clothNode">
+                    <button id="clothNode"class="menuToolButton">
                         <i class="fas fa-dot-circle"></i> Cloth Node
                     </button>
 
                     <!--ADD CLOTH EDGE-->
-                    <button id="clothEdge">
+                    <button id="clothEdge"class="menuToolButton">
                         <i class="fas fa-link"></i> Cloth Edge
                     </button>
 
                     <!--PIN / UNPIN-->
-                    <button id="pin-unpin">
+                    <button id="pinUnpin"class="menuToolButton">
                         <i class="fas fa-thumbtack"></i> Pin/Unpin
                     </button>
 
                     <!--Cut Edge-->
-                    <button id="cutEdge">
+                    <button id="cutEdge"class="menuToolButton">
                         <i class="fas fa-cut"></i></i> Cut Edge
                     </button>
 
                     <hr>
 
                     <!--ADD FLUID-->
-                    <button id="addFluid">
+                    <button id="addFluid"class="menuToolButton">
                         <i class="fas fa-tint"></i> Add Fluid
                     </button>
 
                     <!--REMOVE FLUID-->
-                    <button id="removeFluid">
+                    <button id="removeFluid"class="menuToolButton">
                         <i class="fas fa-tint-slash"></i> Undo Fluid
                     </button>
 
                     <!--MOVE FLUID-->
-                    <button id="moveFluid">
+                    <button id="moveFluid"class="menuToolButton">
                         <i class="fas fa-hand-holding-water"></i> Move Fluid
                     </button>
                 </div>
@@ -106,18 +109,18 @@
                     <!--PAUSE-->
                     <label for="pause">
                         Pause 
-                        <input id="pause" type="checkbox">
+                        <input id="pause"class="menuOption"type="checkbox">
                     </label>
 
                     <!--SPEED-->
                     <label for="speed">
                         Speed 
-                        <input id="speed" type="number" step="0.01" min="0" , max="10" value="1.00">
+                        <input id="speed"class="menuOption"type="number" step="0.01" min="0" , max="10" value="1.00">
                     </label>
 
                     <label for="gravity">
-                        Gravity
-                        <input id="gavity" type="number" step="0.01" min="-100" , max="100" value="-9.81">
+                        Gravity 
+                        <input id="gravity"class="menuOption"type="number" step="0.01" min="-100" , max="100" value="-9.81">
                     </label>
 
                 </div>
