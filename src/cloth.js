@@ -15,9 +15,7 @@ document.getElementById('close').onmousedown = function(e) {
       spacing           = 7,
       tear_distance     = 60;
   
-  
-  /*
-  mouse setting and Animation window frame settings
+      
   window.requestAnimFrame =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
@@ -26,7 +24,7 @@ document.getElementById('close').onmousedown = function(e) {
       window.msRequestAnimationFrame ||
       function (callback) {
           window.setTimeout(callback, 1000 / 60);
-  }; */
+
   
   var canvas,
       ctx,
@@ -246,8 +244,7 @@ function start() {
     update();
 }
 
-/*
-window loading function with canvas for rendering
+
 window.onload = function () {
     canvas  = document.getElementById('c');
     ctx     = canvas.getContext('2d');
@@ -257,4 +254,3 @@ window.onload = function () {
 
     start();
 };
-*/
