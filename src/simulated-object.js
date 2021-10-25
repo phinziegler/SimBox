@@ -18,9 +18,10 @@ export default class SimulatedObject {
     this.physicsObject = physicsWorld.createBody({
       type: physicsType,
       allowSleep: false, // Avoids gravity not affecting asleep bodies.
+      bullet: true,
       position: planck.Vec2(simulationPos.x, simulationPos.y)
     });
-    this.physicsObject.createFixture(simulatedObjectBody.getPhysicsEngineObject());
+    this.physicsObject.createFixture(simulatedObjectBody.getPhysicsEngineObject(), { density: 1 });
     
     this.renderContainer = new PIXI.Container();
     this.renderContainer.addChild(simulatedObjectBody.drawGraphicsObject());
@@ -38,7 +39,7 @@ export default class SimulatedObject {
     this.renderContainer.y = renderPos.y;
 
     // Update rotation.
-    var rotationAngle = this.physicsObject.getAngle();
+    var rotationAngle = -this.physicsObject.getAngle(); // NOTE - Look into the library specifics of why rotation has to be negative from physics to rendering.
     this.renderContainer.rotation = rotationAngle;
 
     //console.log("render pos: " + renderPos + "\n" + "simulation pos: " + simulationPos + "\n" + "rotation angle: " + rotationAngle);
