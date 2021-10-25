@@ -26,7 +26,7 @@ export default class Simulator {
    * @param {HTMLElement} simulationCanvas Canvas element to render the simulation on.
    */
   constructor(simulationCanvas) {
-    this.initRenderer();
+    this.initRenderer(simulationCanvas);
     this.initPhysicsEngine();
     /**
      * List of simulated objects. At any point in time during simulation this list will contain the currently simulated objects.
@@ -37,38 +37,38 @@ export default class Simulator {
   /**
    * Initializes the renderer of the simulator using PixiJS.
    */
-  initRenderer() {
+  initRenderer(canvas) {
     /**
      * The canvas element that the simulation is rendered on.
      * @type {HTMLElement}
      */
-    this.simulationCanvas = simulationCanvas;
+    this.simulationCanvas = canvas;
     /**
      * The size of the simulated region in pixels.
      * @type {Vector}
      */
-     this.simulationAreaSize = new Vector(800, 800);
-     /**
-      * PixiJS renderer instance.
-      * @type {*}
-      */
-     this.renderer = new PIXI.Renderer({ 
-       view: simulationCanvas,
-       width: this.simulationAreaSize.x,
-       height: this.simulationAreaSize.y,
-       backgroundColor: 0x347bed
-     });
-     /**
-      * PixiJS stage for rendering.
-      * @type {*}
-      */
-     this.stage = new PIXI.Container();
-     /**
-      * PixiJS container for render objects - rendered simulated objects are children of this container.
-      * @type {*}
-      */
-     this.renderObjectsContainer = new PIXI.Container();
-     this.stage.addChild(this.renderObjectsContainer);
+    this.simulationAreaSize = new Vector(800, 800);
+    /**
+    * PixiJS renderer instance.
+    * @type {*}
+    */
+    this.renderer = new PIXI.Renderer({ 
+      view: this.simulationCanvas,
+      width: this.simulationAreaSize.x,
+      height: this.simulationAreaSize.y,
+      backgroundColor: 0x347bed
+    });
+    /**
+    * PixiJS stage for rendering.
+    * @type {*}
+    */
+    this.stage = new PIXI.Container();
+    /**
+    * PixiJS container for render objects - rendered simulated objects are children of this container.
+    * @type {*}
+    */
+    this.renderObjectsContainer = new PIXI.Container();
+    this.stage.addChild(this.renderObjectsContainer);
   }
   /**
    * Initializes the physics engine of the simulator using Planck.js.
@@ -99,13 +99,14 @@ export default class Simulator {
    * Builds the simulation scene by filling it with pre-defined simulated objects.
    */
   buildSimulationScene(){
-    //this.addSimulatedObject(centerOfScreenPos, new Box(790, 100, 0xFFFFFF));
-    this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
     const borderWidth = 20;
     this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));
     this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));
     this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));
     this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));
+
+    this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
+    this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
   }
   
   /**

@@ -1,5 +1,6 @@
 import SimulatedObjectBody from "./simulated-object-body.js";
 import Simulator from "../simulator.js";
+import Vector from "../vector.js";
 
 /**
  * Simple shape rectangular box body.
@@ -25,5 +26,9 @@ export default class Box extends SimulatedObjectBody {
     graphic.pivot.x = graphic.width / 2;
     graphic.pivot.y = graphic.height / 2;
     return graphic;
+  }
+
+  get boundingSize(){
+    return new Vector(this.width, this.height);
   }
 }

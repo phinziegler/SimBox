@@ -3,7 +3,7 @@ import InputHandler from "./tools-and-input/input-handler.js";
 
 window.addEventListener("load", startSimulation);
 
-function startSimulation(){
+function startSimulation() {
     const simulationCanvas = document.getElementById("simulationCanvas");
 
     // Instantiate primary objects.
