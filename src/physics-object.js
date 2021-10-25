@@ -13,7 +13,7 @@ export default class PhysicsObject {
     }
 
     // moves the rigid body to the given pixel coordinates
-    setLocation(x, y) {
+    setLocation(x, y) { 
         this.location = {x:x, y:y};
     }
 
