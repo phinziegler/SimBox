@@ -21,7 +21,7 @@ export default class InputHandler {
         });
 
         this.tool = new Tools();        // THE TOOLS ARE STORED IN THE INPUT HANDLER
-        this.option = new Options();    // THE OPTIONS ARE STORED IN THE INPUT HANDLER
+        //this.option = new Options();    // THE OPTIONS ARE STORED IN THE INPUT HANDLER
     }
 
     // DO TOOL ACTION AT MOUSE LOCATION -- relies on ENGINE and makes calls there.

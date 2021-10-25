@@ -3,6 +3,7 @@ import SimulatedObject from "./simulated-object.js";
 import Box from "./simulated-object-bodies/box.js";
 import Circle from "./simulated-object-bodies/circle.js";
 import SimulatedObjectBody from "./simulated-object-bodies/simulated-object-body.js";
+import Options from "./tools-and-input/options.js";
 
 /**
  * A physics simulator that serves as the main coordinator for a physics simulation.
@@ -31,6 +32,7 @@ export default class Simulator {
      */
     this.simulatedObjects = [];
     this.startSimulator();
+    
   }
   /**
    * Initializes the renderer of the simulator using PixiJS.
@@ -47,7 +49,7 @@ export default class Simulator {
        view: simulationCanvas,
        width: this.simulationAreaSize.x,
        height: this.simulationAreaSize.y,
-       backgroundColor: 0x347bed
+       backgroundColor: 0x363636
      });
      /**
       * PixiJS stage for rendering.
@@ -63,7 +65,7 @@ export default class Simulator {
    * Initializes the physics engine of the simulator using Planck.js.
    */
   initPhysicsEngine() {
-    const defaultGravity = -10;
+    let defaultGravity = new Options().getGravity(); // WHY does this not work?
     /**
      * Plank.js World instance for containing physics objects simulated by Planck.js.
      */
@@ -120,8 +122,17 @@ export default class Simulator {
     this.lastStepTimeStamp = timeStamp;
     //console.log("step deltatime: " + deltaTime);
     this.physicsWorld.step(deltaTime / 1000);
-    for (const simulatedObject of this.simulatedObjects)
+
+    let gravity = new Options().getGravity();
+    if(!Number.isNaN(gravity)) {
+      this.physicsWorld.setGravity(planck.Vec2(0, gravity));
+    }
+    //console.log("set gravity to"  + gravity);
+
+    for (const simulatedObject of this.simulatedObjects) {
       simulatedObject.updateRenderTransform(this.simulationAreaSize);
+    }
+
     this.renderSimulation();
     requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
   }
