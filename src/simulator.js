@@ -89,13 +89,13 @@ export default class Simulator {
   /**
    * Starts the simulator by starting the simulator step loop.
    */
-  startSimulator(){
+  startSimulator() {
     /**
      * The time at the moment of the last simulation step, used for calculating delta time between simulation steps.
      * @type {number}
      */
     this.lastStepTimeStamp = null;    
-    requestAnimationFrame(this.initialSimulationStep.bind(this));
+    window.requestAnimationFrame(this.initialSimulationStep.bind(this));
 
     this.buildSimulationScene();
   }
@@ -155,7 +155,7 @@ export default class Simulator {
    */
   initialSimulationStep(initialTimeStamp) {
     this.lastStepTimeStamp = initialTimeStamp;
-    requestAnimationFrame(this.simulationStep.bind(this));
+    window.requestAnimationFrame(this.simulationStep.bind(this));
   }
 
   /**
@@ -173,7 +173,7 @@ export default class Simulator {
     }
 
     this.renderSimulation();
-    requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
+    window.requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
   }
 
   /**

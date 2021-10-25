@@ -3,6 +3,7 @@ import Option from "./option.js";
 export default class Gravity extends Option {
   init() {
     this.gravityElement = document.getElementById("gravity");
+    console.log("here");
   }
 
   updateUI() {
