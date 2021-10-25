@@ -86,10 +86,11 @@ export default class InputHandler {
    * @param {Vector} dragStartPos The starting mouse position in screen space of the user's drag.
    */
   listenForDragComplete(dragStartPos) {
-    const abortSignal = new AbortController(); // THIS ALLOWS AN EVENT LISTENER TO BE ABORTED -- solves issue with event firing twice
-    this.canvas.addEventListener("mouseup", (e) => {
-      this.dragComplete(dragStartPos, this.mouseLocation(e), abortSignal);
-    },{ signal: abortSignal.signal});
+    this.canvas.inputHandler = this;
+    this.canvas.addEventListener("mouseup", function onMouseup(e) {
+      e.currentTarget.inputHandler.dragComplete(dragStartPos, e.currentTarget.inputHandler.mouseLocation(e));
+      e.currentTarget.removeEventListener("mouseup", onMouseup);
+    });
   }
   
   /**
@@ -99,7 +100,6 @@ export default class InputHandler {
    * @param {AbortController} signal 
    */
   dragComplete(startPos, endPos, signal) {
-    signal.abort();
     const tool = this.toolsHandler.activeTool;
     const startToEndDragDirection = new Vector(Math.sign(endPos.x - startPos.x), Math.sign(endPos.y - startPos.y));
     const centerDragAreaPos = new Vector((startPos.x + endPos.x)/2, (startPos.y + endPos.y)/2);
