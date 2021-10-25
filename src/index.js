@@ -6,7 +6,6 @@ import Options from "./tools-and-input/options.js";
 const simulationCanvas = document.getElementById("simulationCanvas");
 
 // Instantiate primary objects.
-new Options();
 const simulator = new Simulator(simulationCanvas);
 new InputHandler(simulator);
 
