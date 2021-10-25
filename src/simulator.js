@@ -37,11 +37,18 @@ export default class Simulator {
    */
   initRenderer() {
     /**
+     * The canvas element that the simulation is rendered on.
+     * @type {HTMLElement}
+     */
+    this.simulationCanvas = simulationCanvas;
+    /**
      * The size of the simulated region in pixels.
+     * @type {Vector}
      */
      this.simulationAreaSize = new Vector(800, 800);
      /**
       * PixiJS renderer instance.
+      * @type {*}
       */
      this.renderer = new PIXI.Renderer({ 
        view: simulationCanvas,
@@ -51,10 +58,12 @@ export default class Simulator {
      });
      /**
       * PixiJS stage for rendering.
+      * @type {*}
       */
      this.stage = new PIXI.Container();
      /**
       * PixiJS container for render objects - rendered simulated objects are children of this container.
+      * @type {*}
       */
      this.renderObjectsContainer = new PIXI.Container();
      this.stage.addChild(this.renderObjectsContainer);
@@ -66,6 +75,7 @@ export default class Simulator {
     const defaultGravity = -10;
     /**
      * Plank.js World instance for containing physics objects simulated by Planck.js.
+     * @type {*}
      */
     this.physicsWorld = planck.World(planck.Vec2(0, defaultGravity));
   }
@@ -75,6 +85,7 @@ export default class Simulator {
   startSimulator(){
     /**
      * The time at the moment of the last simulation step, used for calculating delta time between simulation steps.
+     * @type {number}
      */
      this.lastStepTimeStamp = null;    
      requestAnimationFrame(this.initialSimulationStep.bind(this));

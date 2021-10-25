@@ -2,7 +2,7 @@ import SimulatedObjectBody from "./simulated-object-body.js";
 import Simulator from "../simulator.js";
 
 /**
- * Simple shape box body.
+ * Simple shape rectangular box body.
  */
 export default class Box extends SimulatedObjectBody {
   constructor(width, height, color) {
