@@ -1,20 +1,25 @@
 export default class Options {
     constructor() {
-        // NO NEED FOR A CONSTRUCTOR
+        this.gravityElement = document.getElementById("gravity");
+        this.gravity = parseFloat(this.gravityElement.value);
+        console.log("gravity = " + this.gravity);
+
+        this.speedElement = document.getElementById("speed");
+        this.speed = parseFloat(this.speedElement.value);
+
+        this.pausedElement = document.getElementById("pause");
+        this.isPaused = this.pausedElement.checked;
     }
 
-    static getSpeed() {
-        let speed = document.getElementById("speed").value;
-        return speed;
+    getSpeed() {
+        return this.speed;
     }
 
-    static getGravity() {
-        let gravity = document.getElementById("gravity").value;
-        return gravity;
+    getGravity() {
+        return this.gravity;
     }
     
-    static isPaused() {
-        let isPaused = document.getElementById("pause").checked;
-        return isPaused;
+    isPaused() {
+        return this.isPaused;
     }
 }

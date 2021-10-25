@@ -9,14 +9,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!--LINKS AND SCRIPTS-->
+    <!--LINKS AND SCRIPTS-- NOTE: THE ORDER IS IMPORTANT HERE-->
     <link rel="stylesheet" href="style/style.css">                                              <!--STYLE IMPORT-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!--jQuery-->
-    <script type="module" src="src/menus.js" defer></script>                                   <!--MENU JAVASCRIPT-->
-    <script type="module" src="src/index.js" defer></script>   
-    <script src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>   <!--FONT AWESOME-->
-    <script src="https://cdn.jsdelivr.net/npm/planck-js@0.2.7/dist/planck-with-testbed.min.js" crossorigin="anonymous"></script>   <!--PLANCK-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.1.3/browser/pixi.min.js" integrity="sha512-UTxnPBSU6H9cK/irQEDwJ3y3FfmuOvwYZnOZkgdWxGjKO2uL2B511mkocNj4UkoXXA8GHHEXZQ81hG09mBCZKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!--PixiJS (Rendering library)-->
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!--jQuery-->
+
+    <script defer src="https://cdn.jsdelivr.net/npm/planck-js@0.2.7/dist/planck-with-testbed.min.js" crossorigin="anonymous"></script>   <!--PLANCK-->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.1.3/browser/pixi.min.js" integrity="sha512-UTxnPBSU6H9cK/irQEDwJ3y3FfmuOvwYZnOZkgdWxGjKO2uL2B511mkocNj4UkoXXA8GHHEXZQ81hG09mBCZKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!--PixiJS (Rendering library)-->
+
+    <script defer type="module" src="src/menus.js" ></script>                                   <!--MENU JAVASCRIPT-->
+    <script defer type="module" src="src/index.js" ></script>                                   <!--index-->
+
+    <script defer src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>   <!--FONT AWESOME-->
 
     <title>SimBox</title>
 </head>
@@ -129,8 +132,9 @@
                 <button id="optionButton" class="menuButton">Options</button>
             </div>
         </div>
-
     </div>
 </body>
+
+<p id="load-detector" hidden></p>
 
 </html>
