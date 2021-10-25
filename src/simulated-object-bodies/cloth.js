@@ -157,3 +157,42 @@ Constraint.prototype.draw = function () {
     ctx.moveTo(this.p1.x, this.p1.y);
     ctx.lineTo(this.p2.x, this.p2.y);
 };
+
+var Cloth = function () {
+    this.points = [];
+
+    var start_x = canvas.width / 2 - cloth_width * spacing / 2;
+
+    for (var y = 0; y <= cloth_height; y++) {
+        for (var x = 0; x <= cloth_width; x++) {
+            var p = new Point(start_x + x * spacing, start_y + y * spacing);
+
+            x != 0 && p.attach(this.points[this.points.length - 1]);
+            y == 0 && p.pin(p.x, p.y);
+            y != 0 && p.attach(this.points[x + (y - 1) * (cloth_width + 1)])
+
+            this.points.push(p);
+        }
+    }
+};
+
+Cloth.prototype.update = function () {
+    var i = physics_accuracy;
+
+    while (i--) {
+        var p = this.points.length;
+        while (p--) this.points[p].resolve_constraints();
+    }
+
+    i = this.points.length;
+    while (i--) this.points[i].update(.016);
+};
+
+Cloth.prototype.draw = function () {
+    ctx.beginPath();
+
+    var i = cloth.points.length;
+    while (i--) cloth.points[i].draw();
+
+    ctx.stroke();
+};
