@@ -3,17 +3,17 @@ export default class Options {
         // NO NEED FOR A CONSTRUCTOR
     }
 
-    getSpeed() {
+    static getSpeed() {
         let speed = document.getElementById("speed").value;
         return speed;
     }
 
-    getGravity() {
+    static getGravity() {
         let gravity = document.getElementById("gravity").value;
         return gravity;
     }
     
-    isPaused() {
+    static isPaused() {
         let isPaused = document.getElementById("pause").checked;
         return isPaused;
     }
