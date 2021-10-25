@@ -17,6 +17,7 @@ export default class SimulatedObject {
 
     this.physicsObject = physicsWorld.createBody({
       type: physicsType,
+      allowSleep: false, // Avoids gravity not affecting asleep bodies.
       position: planck.Vec2(simulationPos.x, simulationPos.y)
     });
     this.physicsObject.createFixture(simulatedObjectBody.getPhysicsEngineObject());
