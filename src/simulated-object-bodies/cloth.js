@@ -196,3 +196,65 @@ Cloth.prototype.draw = function () {
 
     ctx.stroke();
 };
+
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    cloth.update();
+    cloth.draw();
+
+    requestAnimFrame(update);
+}
+
+function start() {
+    canvas.onmousedown = function (e) {
+        mouse.button  = e.which;
+        mouse.px      = mouse.x;
+        mouse.py      = mouse.y;
+        var rect      = canvas.getBoundingClientRect();
+        mouse.x       = e.clientX - rect.left,
+        mouse.y       = e.clientY - rect.top,
+        mouse.down    = true;
+        e.preventDefault();
+    };
+
+    canvas.onmouseup = function (e) {
+        mouse.down = false;
+        e.preventDefault();
+    };
+
+    canvas.onmousemove = function (e) {
+        mouse.px  = mouse.x;
+        mouse.py  = mouse.y;
+        var rect  = canvas.getBoundingClientRect();
+        mouse.x   = e.clientX - rect.left,
+        mouse.y   = e.clientY - rect.top,
+        e.preventDefault();
+    };
+
+    canvas.oncontextmenu = function (e) {
+        e.preventDefault();
+    };
+
+    boundsx = canvas.width - 1;
+    boundsy = canvas.height - 1;
+
+    ctx.strokeStyle = '#888';
+  
+    cloth = new Cloth();
+  
+    update();
+}
+
+/*
+window loading function with canvas for rendering
+window.onload = function () {
+    canvas  = document.getElementById('c');
+    ctx     = canvas.getContext('2d');
+
+    canvas.width  = 560;
+    canvas.height = 350;
+
+    start();
+};
+*/
