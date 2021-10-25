@@ -25,3 +25,10 @@ describe("PhysicsObject", () => {
     expect(physicsObject.getAngle()).toEqual((x));
   });
 });
+
+describe("PhysicsObject", () => {
+  test("should return active tool - default rectangle", () => {
+    const physicsObject = new RigidBody(5, 5, 5);
+    expect(physicsObject.tool.getActiveTool()).toEqual(("rectangle"));
+  });
+});
