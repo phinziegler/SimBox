@@ -9,12 +9,16 @@ export default class SimulatedObject {
    * Create a simulated object.
    * @param {*} physicsWorld 
    * @param {Vector} simulationPos Position in simulation space to construct the simulated object at.
-   * @param {SimulatedObjectBody} simulatedObjectBody The simulated object body that defines the body of the simulated object. 
+   * @param {SimulatedObjectBody} simulatedObjectBody The simulated object body that defines the body of the simulated object.
+   * @param {string} physicsType The type of physics body to be created.
    */
-  constructor(physicsWorld, simulationPos, simulatedObjectBody) {
+  constructor(physicsWorld, simulationPos, simulatedObjectBody, physicsType) {
     this.simulatedObjectBody = simulatedObjectBody;
 
-    this.physicsObject = physicsWorld.createDynamicBody(planck.Vec2(simulationPos.x, simulationPos.y));
+    this.physicsObject = physicsWorld.createBody({
+      type: physicsType,
+      position: planck.Vec2(simulationPos.x, simulationPos.y)
+    });
     this.physicsObject.createFixture(simulatedObjectBody.getPhysicsEngineObject());
     
     this.renderContainer = new PIXI.Container();
