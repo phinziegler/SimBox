@@ -1,13 +1,10 @@
 import Simulator from "./simulator.js";
 import InputHandler from "./tools-and-input/input-handler.js";
-import Options from "./tools-and-input/options.js";
 
 window.addEventListener("load", startSimulation);
 
 function startSimulation() {
     const simulationCanvas = document.getElementById("simulationCanvas");
-
-    // Instantiate primary objects.
-    const simulator = new Simulator(simulationCanvas);
-    new InputHandler(simulator);
+    const simulator = new Simulator(simulationCanvas); // Instantiate simulator to present SimBox on the simulation canvas.
+    new InputHandler(simulator); // Keep the input handler instantiation outside of the simulator, as it is more proper since simulations need not necessarily have input handlers (for example they can work off simulated scenes alone).
 }

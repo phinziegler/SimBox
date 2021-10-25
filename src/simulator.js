@@ -27,14 +27,18 @@ export default class Simulator {
    * @param {HTMLElement} simulationCanvas Canvas element to render the simulation on.
    */
   constructor(simulationCanvas) {
-    this.initRenderer(simulationCanvas);
-    this.initPhysicsEngine();
     /**
      * List of simulated objects. At any point in time during simulation this list will contain the currently simulated objects.
      */
     this.simulatedObjects = [];
-    this.startSimulator();
     
+    this.initRenderer(simulationCanvas);
+    this.initPhysicsEngine();
+    /**
+     * The options that dictate the simulation.
+     */
+    this.options = new Options(this);
+    this.startSimulator();
   }
   /**
    * Initializes the renderer of the simulator using PixiJS.
@@ -76,12 +80,11 @@ export default class Simulator {
    * Initializes the physics engine of the simulator using Planck.js.
    */
   initPhysicsEngine() {
-    let defaultGravity = new Options().getGravity(); // WHY does this not work?
     /**
      * Plank.js World instance for containing physics objects simulated by Planck.js.
      * @type {*}
      */
-    this.physicsWorld = planck.World(planck.Vec2(0, defaultGravity));
+    this.physicsWorld = planck.World(planck.Vec2(0, Options.DefaultOptions.GRAVITY));
   }
   /**
    * Starts the simulator by starting the simulator step loop.
@@ -164,12 +167,6 @@ export default class Simulator {
     this.lastStepTimeStamp = timeStamp;
     //console.log("step deltatime: " + deltaTime);
     this.physicsWorld.step(deltaTime / 1000);
-
-    let gravity = new Options().getGravity();
-    if(!Number.isNaN(gravity)) {
-      this.physicsWorld.setGravity(planck.Vec2(0, gravity));
-    }
-    //console.log("set gravity to"  + gravity);
 
     for (const simulatedObject of this.simulatedObjects) {
       simulatedObject.updateRenderTransform(this.simulationAreaSize);
