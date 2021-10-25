@@ -3,6 +3,8 @@ import SimulatedObject from "./simulated-object.js";
 import Box from "./simulated-object-bodies/box.js";
 import Circle from "./simulated-object-bodies/circle.js";
 import SimulatedObjectBody from "./simulated-object-bodies/simulated-object-body.js";
+import { Edge, ExtremePosition } from "./vector.js";
+import BorderEdge from "./simulated-object-bodies/border-edge.js";
 
 /**
  * A physics simulator that serves as the main coordinator for a physics simulation.
@@ -87,20 +89,23 @@ export default class Simulator {
      * The time at the moment of the last simulation step, used for calculating delta time between simulation steps.
      * @type {number}
      */
-     this.lastStepTimeStamp = null;    
-     requestAnimationFrame(this.initialSimulationStep.bind(this));
-     this.debugAddSimulatedObjects();
-  }
-  
-  /**
-   * Adds simulated objects for visual confirmation of functionality.
-   */
-  debugAddSimulatedObjects() {
-    const centerOfScreenPos = new Vector((this.renderer.width/2), (this.renderer.height/2));
-    const topRightOfScreenPos = new Vector((this.renderer.width), 0);
+    this.lastStepTimeStamp = null;    
+    requestAnimationFrame(this.initialSimulationStep.bind(this));
 
-    this.addSimulatedObject(centerOfScreenPos, new Box(790, 100, 0xFFFFFF));
-    this.addSimulatedObject(topRightOfScreenPos, new Circle(100, 0x00FFFF));
+    this.buildSimulationScene();
+  }
+
+  /**
+   * Builds the simulation scene by filling it with pre-defined simulated objects.
+   */
+  buildSimulationScene(){
+    //this.addSimulatedObject(centerOfScreenPos, new Box(790, 100, 0xFFFFFF));
+    this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
+    const borderWidth = 20;
+    this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));
+    this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));
+    this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));
+    this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));
   }
   
   /**
@@ -109,8 +114,33 @@ export default class Simulator {
    * @param {SimulatedObjectBody} simulatedObjectBody The simulated object body to make up the object.
    */
   addSimulatedObject(screenPos, simulatedObjectBody) {
-    const simulationPos = screenPos.screenToSimulationPos(this.simulationAreaSize);
-    this.addSimulatedObjectInternal(new SimulatedObject(this.physicsWorld, simulationPos, simulatedObjectBody));
+    this.addSimulatedObjectInternal(screenPos, simulatedObjectBody, "dynamic");
+  }
+
+  /**
+   * Adds a simulated object at the given extreme position.
+   * @param {*} extremePos 
+   * @param {*} simulatedObjectBody 
+   */
+  addSimulatedObjectAtExtremePos(extremePos, simulatedObjectBody){
+    this.addSimulatedObjectAtExtremePosInternal(extremePos, simulatedObjectBody, "dynamic");
+  }
+  /**
+   * Adds a static simulated object at given extreme screen position.
+   * @param {Vector} extremePos 
+   * @param {SimulatedObjectBody} simulatedObjectBody 
+   */
+  addStaticObject(extremePos, simulatedObjectBody){
+    this.addSimulatedObjectAtExtremePosInternal(extremePos, simulatedObjectBody, "static");
+  }
+  /**
+   * Adds simulated object of specified extreme position, body, and physics type.
+   * @param {Vector} extremePos 
+   * @param {SimulatedObjectBody} simulatedObjectBody 
+   * @param {string} physicsType 
+   */
+   addSimulatedObjectAtExtremePosInternal(extremePos, simulatedObjectBody, physicsType){
+    this.addSimulatedObjectInternal(simulatedObjectBody.getScreenExtremePos(this.simulationAreaSize, extremePos), simulatedObjectBody, physicsType);
   }
 
   /**
@@ -148,7 +178,9 @@ export default class Simulator {
    * Adds a simulated object to the simulation.
    * @param {SimulatedObject} simulatedObject 
    */
-  addSimulatedObjectInternal(simulatedObject) {
+  addSimulatedObjectInternal(screenPos, simulatedObjectBody, physicsType) {
+    const simulationPos = screenPos.screenToSimulationPos(this.simulationAreaSize)
+    const simulatedObject = new SimulatedObject(this.physicsWorld, simulationPos, simulatedObjectBody, physicsType);
     this.simulatedObjects.push(simulatedObject);
     this.renderObjectsContainer.addChild(simulatedObject.renderContainer);
   }

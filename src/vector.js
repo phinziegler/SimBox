@@ -73,3 +73,29 @@ export default class Vector {
         this._y = y;
     }
 }
+
+
+/**
+ * Edge definitions.
+ */
+ export const Edge = {
+    TOP: new Vector(0, 1),
+    RIGHT: new Vector(1, 0),
+    BOTTOM: new Vector(0, -1),
+    LEFT: new Vector(-1, 0),
+}
+
+/**
+ * Extreme position definitions. Useful for representing the common positions of a screen.
+ */
+ export const ExtremePosition = {
+    MIDDLE_CENTER: new Vector(0, 0),
+    TOP_CENTER: new Vector(0, 1),
+    TOP_RIGHT: new Vector(1, 1),
+    MIDDLE_RIGHT: new Vector(1, 0),
+    BOTTOM_RIGHT: new Vector(1, -1),
+    BOTTOM_CENTER: new Vector(0, -1),
+    BOTTOM_LEFT: new Vector(-1, -1),
+    MIDDLE_LEFT: new Vector(-1, 0),
+    TOP_LEFT: new Vector(-1, 1),
+}

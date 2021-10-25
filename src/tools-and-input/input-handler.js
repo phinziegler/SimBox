@@ -1,6 +1,6 @@
 import Vector from "../vector.js";
 import Options from "./options.js";
-import { tools } from "./tools.js";
+import { Tool } from "./tools.js";
 import ToolsHandler from "./tools.js";
 import Box from "../simulated-object-bodies/box.js";
 import Circle from "../simulated-object-bodies/circle.js";
@@ -47,16 +47,17 @@ export default class InputHandler {
      * @param {Vector} mousePos The position of the mouse in screen space at the time when the mouse is pressed.
      */
     onMousedown(mousePos) {
+        //console.log(`Mousedown at ${mousePos}`);
         const tool = this.toolsHandler.activeTool;
         switch (tool) {
-            case tools.RECTANGLE: case tools.CIRCLE:
+            case Tool.RECTANGLE: case Tool.CIRCLE:
                 this.listenForDragComplete(mousePos);
                 break;
 
-            case tools.SELECT:
+            case Tool.SELECT:
                 throw new Error(tool + " tool unimplemented");
                 break;
-            case tools.GRAB:
+            case Tool.GRAB:
                 throw new Error(tool + " tool unimplemented");
                 break;
             /* case "clothNode":
@@ -110,22 +111,22 @@ export default class InputHandler {
         const centerDragAreaPos = new Vector((startPos.x + endPos.x)/2, (startPos.y + endPos.y)/2);
         const dragAreaSize = new Vector(Math.abs(endPos.x - startPos.x), Math.abs(endPos.y - startPos.y));
         switch (tool) {
-            case tools.RECTANGLE:
+            case Tool.RECTANGLE:
                 console.log(`Rectangle: ${startPos} to ${endPos}\nCentered at: ${centerDragAreaPos}\nSize: ${dragAreaSize}`);
                 this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, 0xFFFFFF));
                 break;
 
-            case tools.CIRCLE:
+            case Tool.CIRCLE:
                 const circleRadius = Math.min(dragAreaSize.x, dragAreaSize.y)/2;
                 const circleCenterPos = new Vector(endPos.x - (circleRadius * startToEndDragDirection.x), endPos.y - (circleRadius * startToEndDragDirection.y));
                 console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
                 this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, 0xFFFFFF));
                 break;
 
-            case tools.SELECT:
+            case Tool.SELECT:
                 throw new Error(tool + " tool unimplemented");
                 break;
-            case tools.GRAB:
+            case Tool.GRAB:
                 throw new Error(tool + " tool unimplemented");
                 break;
             /* case "clothNode":

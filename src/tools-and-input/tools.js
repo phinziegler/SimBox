@@ -2,7 +2,7 @@
 /**
  * Container for tool IDs.
  */
-export const tools = {
+export const Tool = {
     RECTANGLE: "rectangle",
     CIRCLE: "circle",
     SELECT: "select",
@@ -17,7 +17,7 @@ const activeToolClass = "activeTool";
 /**
  * The active tool by default.
  */
-const defaultActiveTool = tools.RECTANGLE;
+const defaultActiveTool = Tool.RECTANGLE;
 
 export default class ToolsHandler {
     constructor() {
@@ -65,7 +65,7 @@ export default class ToolsHandler {
         }
 
         this.toolsContainerElement.querySelector(`#${tool}`).classList.add(activeToolClass); // Set the new visual indicator for the currently active tool.
-        
+
         //console.log(this.activeTool + " active");
     }
 }

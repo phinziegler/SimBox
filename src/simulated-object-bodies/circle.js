@@ -1,5 +1,6 @@
 import SimulatedObjectBody from "./simulated-object-body.js";
 import Simulator from "../simulator.js";
+import Vector from "../vector.js";
 
 /**
  * Simple shape circle body.
@@ -22,5 +23,9 @@ export default class Circle extends SimulatedObjectBody {
     graphic.drawCircle(0, 0, this.radius);
     graphic.endFill();
     return graphic;
+  }
+
+  get boundingSize(){
+    return new Vector(this.radius*2, this.radius*2);
   }
 }
