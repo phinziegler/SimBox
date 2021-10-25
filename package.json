@@ -1,5 +1,5 @@
 {
-  "name": "SimBox",
+  "name": "jest",
   "description": "this is where we would write about something",
   "version": "1.0.0",
   "main": "index.js",
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/phinziegler/SimBox.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "phineas",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/phinziegler/SimBox/issues"
