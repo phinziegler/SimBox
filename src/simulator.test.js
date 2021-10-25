@@ -41,7 +41,6 @@ describe("Simulator", () => {
       global.document = dom.window.document;
       global.window.requestAnimationFrame = function (callback) {
         if (++requestAnimationFrameCount < 10){
-          console.log("REQS");
           return callback();
         }
       };
@@ -58,5 +57,54 @@ describe("Simulator", () => {
 
   test("should construct and set options through constructor", () => {
     expect(simulator.options).toBeInstanceOf(Options);
+  });
+
+  test("should set gravity with correct negativity on gravity input field change", () => {
+    const newValue = 5;
+    const gravityElement = document.getElementById("gravity");
+    gravityElement.value = newValue;
+    var event = new window.Event("input", {
+      bubbles: true,
+      cancelable: true,
+    });
+    gravityElement.dispatchEvent(event);
+    expect(simulator.options.gravity.value).toEqual(-newValue);
+  });
+
+  test("should not set invalid input for gravity", () => {
+    const previousValue = simulator.options.gravity.value;
+    const newValue = "invalid, this is text, not a number";
+    const gravityElement = document.getElementById("gravity");
+    gravityElement.value = newValue;
+    var event = new window.Event("input", {
+      bubbles: true,
+      cancelable: true,
+    });
+    gravityElement.dispatchEvent(event);
+    expect(simulator.options.gravity.value).toEqual(previousValue);
+  });
+
+  test("should set speed on speed input field change", () => {
+    const newValue = 5;
+    const speedElement = document.getElementById("speed");
+    speedElement.value = newValue;
+    var event = new window.Event("input", {
+      bubbles: true,
+      cancelable: true,
+    });
+    speedElement.dispatchEvent(event);
+    expect(simulator.options.speed.value).toEqual(newValue);
+  });
+
+  test("should set isPaused on pause checkbox change", () => {
+    const newValue = true;
+    const isPausedElement = document.getElementById("pause");
+    isPausedElement.checked = newValue;
+    var event = new window.Event("change", {
+      bubbles: true,
+      cancelable: true,
+    });
+    isPausedElement.dispatchEvent(event);
+    expect(simulator.options.isPaused.value).toEqual(newValue);
   });
 });

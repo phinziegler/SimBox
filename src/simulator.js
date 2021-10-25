@@ -29,6 +29,7 @@ export default class Simulator {
   constructor(simulationCanvas) {
     /**
      * List of simulated objects. At any point in time during simulation this list will contain the currently simulated objects.
+     * @type {SimulatedObject[]}
      */
     this.simulatedObjects = [];
     
@@ -36,6 +37,7 @@ export default class Simulator {
     this.initPhysicsEngine();
     /**
      * The options that dictate the simulation.
+     * @type {Options}
      */
     this.options = new Options(this);
     this.startSimulator();
@@ -90,14 +92,13 @@ export default class Simulator {
    * Starts the simulator by starting the simulator step loop.
    */
   startSimulator() {
+    this.buildSimulationScene();
     /**
      * The time at the moment of the last simulation step, used for calculating delta time between simulation steps.
      * @type {number}
      */
-    this.lastStepTimeStamp = null;    
+    this.lastStepTimeStamp = null;   
     window.requestAnimationFrame(this.initialSimulationStep.bind(this));
-
-    this.buildSimulationScene();
   }
 
   /**
