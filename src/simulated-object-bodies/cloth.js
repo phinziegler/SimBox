@@ -4,8 +4,7 @@ document.getElementById('close').onmousedown = function(e) {
     return false;
   };
   
-  // settings
-  
+  // settings inititally set to values in order to see if it renders
   var physics_accuracy  = 3,
       mouse_influence   = 20,
       mouse_cut         = 5,
@@ -17,6 +16,8 @@ document.getElementById('close').onmousedown = function(e) {
       tear_distance     = 60;
   
   
+  /*
+  mouse setting and Animation window frame settings
   window.requestAnimFrame =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
@@ -25,7 +26,7 @@ document.getElementById('close').onmousedown = function(e) {
       window.msRequestAnimationFrame ||
       function (callback) {
           window.setTimeout(callback, 1000 / 60);
-  };
+  }; */
   
   var canvas,
       ctx,
@@ -129,3 +130,30 @@ document.getElementById('close').onmousedown = function(e) {
       this.pin_y = piny;
   };
   
+  var Constraint = function (p1, p2) {
+    this.p1     = p1;
+    this.p2     = p2;
+    this.length = spacing;
+};
+
+Constraint.prototype.resolve = function () {
+    var diff_x  = this.p1.x - this.p2.x,
+        diff_y  = this.p1.y - this.p2.y,
+        dist    = Math.sqrt(diff_x * diff_x + diff_y * diff_y),
+        diff    = (this.length - dist) / dist;
+
+    if (dist > tear_distance) this.p1.remove_constraint(this);
+
+    var px = diff_x * diff * 0.5;
+    var py = diff_y * diff * 0.5;
+
+    this.p1.x += px;
+    this.p1.y += py;
+    this.p2.x -= px;
+    this.p2.y -= py;
+};
+
+Constraint.prototype.draw = function () {
+    ctx.moveTo(this.p1.x, this.p1.y);
+    ctx.lineTo(this.p2.x, this.p2.y);
+};
