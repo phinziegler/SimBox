@@ -16,3 +16,12 @@ describe("PhysicsObject", () => {
     expect(physicsObject.getLocation()).toEqual((x,y));
   });
 });
+
+describe("PhysicsObject", () => {
+  test("should set angle of rigid body through getter/setter", () => {
+    const x = 36;
+    const physicsObject = new RigidBody(5, 5, 5);
+    physicsObject.setAngle(36)
+    expect(physicsObject.getAngle()).toEqual((x));
+  });
+});
