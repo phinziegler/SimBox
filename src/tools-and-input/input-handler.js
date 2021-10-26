@@ -107,14 +107,14 @@ export default class InputHandler {
     switch (tool) {
       case Tool.RECTANGLE:
         console.log(`Rectangle: ${startPos} to ${endPos}\nCentered at: ${centerDragAreaPos}\nSize: ${dragAreaSize}`);
-        this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, this.#randomhex()));
+        this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, this.#randomColor()));
         break;
 
       case Tool.CIRCLE:
         const circleRadius = Math.min(dragAreaSize.x, dragAreaSize.y)/2;
         const circleCenterPos = new Vector(endPos.x - (circleRadius * startToEndDragDirection.x), endPos.y - (circleRadius * startToEndDragDirection.y));
         console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
-        this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.#randomhex()));
+        this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.#randomColor()));
         break;
 
       case Tool.SELECT:
@@ -152,7 +152,7 @@ export default class InputHandler {
   }
 
   // HELPER: generates a random color in hexadecimal form
-  #randomhex() {
+  #randomColor() {
     let hue = Math.random() * 360;
     let sat = 100;
     let light = 50 + (Math.random() * 20);
