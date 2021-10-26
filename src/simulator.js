@@ -64,7 +64,8 @@ export default class Simulator {
       view: this.simulationCanvas,
       width: this.simulationAreaSize.x,
       height: this.simulationAreaSize.y,
-      backgroundColor: 0x363636
+      backgroundColor: 0x363636,
+      antialias:true
     });
     /**
     * PixiJS stage for rendering.
