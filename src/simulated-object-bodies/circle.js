@@ -19,7 +19,7 @@ export default class Circle extends SimulatedObjectBody {
   drawGraphicsObject() {
     var graphic = new PIXI.Graphics();
     graphic.beginFill(this.color);
-    graphic.lineStyle(0, 0x000000);
+    graphic.lineStyle(1, this.color);
     graphic.drawCircle(0, 0, this.radius);
     graphic.endFill();
     return graphic;
