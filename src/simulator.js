@@ -106,7 +106,7 @@ export default class Simulator {
    * Builds the simulation scene by filling it with pre-defined simulated objects.
    */
   buildSimulationScene(){
-    const borderWidth = 20;
+    const borderWidth = 0;
     this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));
     this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));
     this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));
