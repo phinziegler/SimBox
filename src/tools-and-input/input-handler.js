@@ -107,14 +107,14 @@ export default class InputHandler {
     switch (tool) {
       case Tool.RECTANGLE:
         console.log(`Rectangle: ${startPos} to ${endPos}\nCentered at: ${centerDragAreaPos}\nSize: ${dragAreaSize}`);
-        this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, 0xFFFFFF));
+        this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, this.#randomhex()));
         break;
 
       case Tool.CIRCLE:
         const circleRadius = Math.min(dragAreaSize.x, dragAreaSize.y)/2;
         const circleCenterPos = new Vector(endPos.x - (circleRadius * startToEndDragDirection.x), endPos.y - (circleRadius * startToEndDragDirection.y));
         console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
-        this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, 0xFFFFFF));
+        this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.#randomhex()));
         break;
 
       case Tool.SELECT:
@@ -149,6 +149,25 @@ export default class InputHandler {
         break;
     }
 
+  }
+
+  // HELPER: generates a random color in hexadecimal form
+  #randomhex() {
+    let hue = Math.random() * 360;
+    let sat = 100;
+    let light = 50 + (Math.random() * 20);
+    return parseInt(this.#hslToHex(hue, sat, light),16);
+  }
+  #hslToHex(h, s, l) {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+    };
+    const result = `${f(0)}${f(8)}${f(4)}`;
+    return result;
   }
 
   /**
