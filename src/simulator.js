@@ -112,8 +112,18 @@ export default class Simulator {
     this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));
     this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));
 
-    this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
-    this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
+    // this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
+    // this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
+
+    this.addSimulatedObject(new Vector(200, 700), new Box(20, 50, 0xFFFFFF));
+    this.addSimulatedObject(new Vector(200, 600), new Box(200, 10, 0xFFFFFF));
+    this.addSimulatedObject(new Vector(110, 580), new Box(10,10, 0xFF0000));
+    this.addSimulatedObject(new Vector(290, 580), new Box(10, 10, 0xFFFFFF));
+
+    this.addSimulatedObject(new Vector(600, 580), new Box(25, 350, 0xFFFFFF));
+    this.addSimulatedObject(new Vector(600, 300), new Box(100, 10, 0xFFFFFF));
+    this.addSimulatedObject(new Vector(645, 200), new Box(10, 40, 0xFFFFFF));
+    this.addSimulatedObject(new Vector(555, 200), new Box(10, 40, 0xFFFFFF));
   }
   
   /**
