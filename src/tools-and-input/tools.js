@@ -26,6 +26,7 @@ export default class ToolsHandler {
      * @type {Element}
      */
     this.toolsContainerElement = document.querySelector("#menuPanel");
+    this.indicator = document.getElementById("activeTool");
     /**
      * List of all tool IDs.
      * @type {Element[]}
@@ -42,9 +43,11 @@ export default class ToolsHandler {
     for(let i = 0; i < this.list.length; i++) {
       this.list[i].addEventListener("click", () => {
         this.activeTool = this.list[i].id;
+        this.indicator.setAttribute("class", this.list[i].childNodes[1].className);
       });
     }
     this.activeTool = defaultActiveTool; // Set the default active tool once the UI is constructed.
+    this.indicator.className = "fas fa-square";
   }
 
   /**

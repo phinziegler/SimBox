@@ -48,6 +48,7 @@ h1 {
 .open {
 	display: flex;
 	flex-direction: column-reverse;
+	opacity: 90%;
 }
 .closed {
 	display: none;
@@ -137,4 +138,13 @@ input[type = number] {
 	width: 50px;
 	border-radius:4px;
 	border-width:1px;
+}
+
+/* STYLE FOR ACTIVE TOOL INDICATOR */
+#activeTool {
+	position: absolute;
+	font-size: 24px;
+	color: rgba(230, 230, 230, 0.9);
+	margin: 10px;
+	pointer-events: none;
 }

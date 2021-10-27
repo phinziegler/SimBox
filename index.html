@@ -31,7 +31,10 @@
     <!--UI CONTAINER-->
     <div id="ui">
         <!--CANVAS-->
-        <canvas id="simulationCanvas"></canvas>
+        <div id="canvasWrapper">
+            <i class="" id="activeTool"></i>
+            <canvas id="simulationCanvas"></canvas>
+        </div>
 
         <!--MENU PANEL-->
         <div id="menuPanel">
@@ -104,7 +107,7 @@
                 <!--TOGGLE TOOL BUTTON-->
                 <button id="toolButton" class="menuButton">Tools</button>
             </div>
-
+            
             <!--OPTIONS-->
             <div class="menu">
                 <div id="options" class="closed">
@@ -118,12 +121,12 @@
                     <!--SPEED-->
                     <label for="speed">
                         Speed 
-                        <input id="speed" class="menuOption"type="number" step="0.01" min="0" max="10">
+                        <input id="speed" class="menuOption"type="number" step="0.01" min="0">
                     </label>
 
                     <label for="gravity">
                         Gravity 
-                        <input id="gravity" class="menuOption"type="number" step="0.01" min="-100" max="100">
+                        <input id="gravity" class="menuOption"type="number" step="0.01">
                     </label>
 
                 </div>

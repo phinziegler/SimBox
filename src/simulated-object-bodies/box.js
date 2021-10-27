@@ -20,7 +20,7 @@ export default class Box extends SimulatedObjectBody {
   drawGraphicsObject() {
     var graphic = new PIXI.Graphics();
     graphic.beginFill(this.color);
-    graphic.lineStyle(0, 0x000000);
+    graphic.lineStyle(1, this.color);
     graphic.drawRect(0, 0, this.width, this.height);
     graphic.endFill();
     graphic.pivot.x = graphic.width / 2;
