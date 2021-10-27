@@ -31,7 +31,10 @@
     <!--UI CONTAINER-->
     <div id="ui">
         <!--CANVAS-->
-        <canvas id="simulationCanvas"></canvas>
+        <div id="canvasWrapper">
+            <i class="" id="activeTool"></i>
+            <canvas id="simulationCanvas"></canvas>
+        </div>
 
         <!--MENU PANEL-->
         <div id="menuPanel">
@@ -104,7 +107,7 @@
                 <!--TOGGLE TOOL BUTTON-->
                 <button id="toolButton" class="menuButton">Tools</button>
             </div>
-
+            
             <!--OPTIONS-->
             <div class="menu">
                 <div id="options" class="closed">
