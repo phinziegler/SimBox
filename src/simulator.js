@@ -40,7 +40,13 @@ export default class Simulator {
      * @type {Options}
      */
     this.options = new Options(this);
+    //this.speed = Options.DefaultOptions.SPEED;
     this.startSimulator();
+  }
+
+  setSpeed(speed) {
+    this.speed = speed;
+    console.log(speed);
   }
   /**
    * Initializes the renderer of the simulator using PixiJS.
@@ -88,6 +94,7 @@ export default class Simulator {
      * @type {*}
      */
     this.physicsWorld = planck.World(planck.Vec2(0, Options.DefaultOptions.GRAVITY));
+    this.speed = Options.DefaultOptions.SPEED;
   }
   /**
    * Starts the simulator by starting the simulator step loop.
@@ -178,7 +185,7 @@ export default class Simulator {
     var deltaTime = timeStamp - this.lastStepTimeStamp;
     this.lastStepTimeStamp = timeStamp;
     //console.log("step deltatime: " + deltaTime);
-    this.physicsWorld.step(deltaTime / 1000);
+    this.physicsWorld.step((deltaTime / 1000) * this.speed);
 
     for (const simulatedObject of this.simulatedObjects) {
       simulatedObject.updateRenderTransform(this.simulationAreaSize);

@@ -20,5 +20,7 @@ export default class Speed extends Option {
   }
   set value(speed) {
     this._value = speed;
+    this.simulator.setSpeed(this._value);
+    //console.log(this._value);
   }
 }
