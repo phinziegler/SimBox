@@ -20,6 +20,5 @@ export default class IsPaused extends Option {
   }
   set value(isPaused) {
     this._value = isPaused;
-    this.simulator.setPaused(this._value);
   }
 }
