@@ -1,5 +1,5 @@
-
-/**
+import toggleMenu, * as name from "../menus.js";
+/**""
  * Container for tool IDs.
  */
 export const Tool = {
@@ -44,6 +44,7 @@ export default class ToolsHandler {
       this.list[i].addEventListener("click", () => {
         this.activeTool = this.list[i].id;
         this.indicator.setAttribute("class", this.list[i].childNodes[1].className);
+        toggleMenu(document.getElementById("tools"));
       });
     }
     this.activeTool = defaultActiveTool; // Set the default active tool once the UI is constructed.
@@ -68,7 +69,5 @@ export default class ToolsHandler {
     }
 
     this.toolsContainerElement.querySelector(`#${tool}`).classList.add(activeToolClass); // Set the new visual indicator for the currently active tool.
-
-    //console.log(this.activeTool + " active");
   }
 }
