@@ -17,7 +17,7 @@ const activeToolClass = "activeTool";
 /**
  * The active tool by default.
  */
-const defaultActiveTool = Tool.RECTANGLE;
+const defaultActiveTool = Tool.CIRCLE;
 
 export default class ToolsHandler {
   constructor() {
