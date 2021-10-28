@@ -47,7 +47,7 @@ export default class ToolsHandler {
       });
     }
     this.activeTool = defaultActiveTool; // Set the default active tool once the UI is constructed.
-    this.indicator.className = "fas fa-square";
+    this.indicator.className = document.getElementById(defaultActiveTool).childNodes[1].className;
   }
 
   /**
