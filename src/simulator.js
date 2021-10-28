@@ -108,23 +108,24 @@ export default class Simulator {
    */
   buildSimulationScene(){
     const borderWidth = 0;
-    this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));
-    this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));
-    this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));
-    this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));
+    this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));  // Floor
+    this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));  // Ceiling
+    this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));                  // Left
+    this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));                  // Right
 
     // this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
     // this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
 
-    this.addSimulatedObject(new Vector(200, 700), new Box(20, 50, 0xFFFFFF));
-    this.addSimulatedObject(new Vector(200, 600), new Box(200, 10, 0xFFFFFF));
-    this.addSimulatedObject(new Vector(110, 580), new Box(10,10, 0xFF0000));
-    this.addSimulatedObject(new Vector(290, 580), new Box(10, 10, 0xFFFFFF));
+    // Catapult
+    this.addSimulatedObject(new Vector(195, 730), new Box(20, 50, 0xFFFFFF));   // fulcrum
+    this.addSimulatedObject(new Vector(200, 680), new Box(200, 10, 0xFFFFFF));  // paddle for catapult
+    this.addSimulatedObject(new Vector(110, 670), new Box(10,10, 0xFF0000));    // red box
 
-    this.addSimulatedObject(new Vector(600, 580), new Box(25, 350, 0xFFFFFF));
-    this.addSimulatedObject(new Vector(600, 300), new Box(100, 10, 0xFFFFFF));
-    this.addSimulatedObject(new Vector(645, 200), new Box(10, 40, 0xFFFFFF));
-    this.addSimulatedObject(new Vector(555, 200), new Box(10, 40, 0xFFFFFF));
+    // Goal
+    this.addSimulatedObject(new Vector(600, 590), new Box(25, 350, 0xFFFFFF));  // goal pillar
+    this.addSimulatedObject(new Vector(600, 400), new Box(100, 10, 0xFFFFFF));  // goal bar
+    this.addSimulatedObject(new Vector(555, 360), new Box(10, 40, 0xFFFFFF));   // goal fork left
+    this.addSimulatedObject(new Vector(645, 360), new Box(10, 40, 0xFFFFFF));   // goal fork right
   }
   
   /**

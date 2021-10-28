@@ -13,7 +13,7 @@ option.addEventListener("click", () => {
 });
 
 // TOGGLE MENU FUNCTION
-function toggleMenu(element) {
+export default function toggleMenu(element) {
     if(element.className == "open") {
         element.setAttribute("class", "closed");
     }
