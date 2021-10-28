@@ -1,6 +1,6 @@
 {
-  "name": "jest",
-  "description": "this is where we would write about something",
+  "name": "simbox",
+  "description": "simbox simulator",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/phinziegler/SimBox.git"
   },
   "keywords": [],
-  "author": "phineas",
+  "author": "Phineas, Ben, Janvi, Mira, Mahek",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/phinziegler/SimBox/issues"
