@@ -111,8 +111,8 @@ export default class InputHandler {
         break;
 
       case Tool.CIRCLE:
-        const circleRadius = Math.min(dragAreaSize.x, dragAreaSize.y)/2;
-        const circleCenterPos = new Vector(endPos.x - (circleRadius * startToEndDragDirection.x), endPos.y - (circleRadius * startToEndDragDirection.y));
+        const circleRadius = Math.sqrt(Math.pow(dragAreaSize.x,2) + Math.pow(dragAreaSize.y,2))/2;
+        const circleCenterPos = new Vector(endPos.x - ((dragAreaSize.x/2) * startToEndDragDirection.x), endPos.y - ((dragAreaSize.y/2) * startToEndDragDirection.y));
         console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
         this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.#randomColor()));
         break;
