@@ -27,15 +27,22 @@ export default class Simulator {
    * @param {HTMLElement} simulationCanvas Canvas element to render the simulation on.
    */
   constructor(simulationCanvas) {
+    /**
+     * List of simulated objects. At any point in time during simulation this list will contain the currently simulated objects.
+     * @type {SimulatedObject[]}
+     */
+    this.simulatedObjects = [];
+    
     this.initRenderer(simulationCanvas);
     this.initPhysicsEngine();
     /**
-     * List of simulated objects. At any point in time during simulation this list will contain the currently simulated objects.
+     * The options that dictate the simulation.
+     * @type {Options}
      */
-    this.simulatedObjects = [];
+    this.options = new Options(this);
     this.startSimulator();
-    
   }
+
   /**
    * Initializes the renderer of the simulator using PixiJS.
    */
@@ -58,7 +65,8 @@ export default class Simulator {
       view: this.simulationCanvas,
       width: this.simulationAreaSize.x,
       height: this.simulationAreaSize.y,
-      backgroundColor: 0x363636
+      backgroundColor: 0x363636,
+      antialias:true
     });
     /**
     * PixiJS stage for rendering.
@@ -76,39 +84,48 @@ export default class Simulator {
    * Initializes the physics engine of the simulator using Planck.js.
    */
   initPhysicsEngine() {
-    let defaultGravity = new Options().getGravity(); // WHY does this not work?
     /**
      * Plank.js World instance for containing physics objects simulated by Planck.js.
      * @type {*}
      */
-    this.physicsWorld = planck.World(planck.Vec2(0, defaultGravity));
+    this.physicsWorld = planck.World(planck.Vec2(0, Options.DefaultOptions.GRAVITY));
   }
   /**
    * Starts the simulator by starting the simulator step loop.
    */
-  startSimulator(){
+  startSimulator() {
+    this.buildSimulationScene();
     /**
      * The time at the moment of the last simulation step, used for calculating delta time between simulation steps.
      * @type {number}
      */
-    this.lastStepTimeStamp = null;    
-    requestAnimationFrame(this.initialSimulationStep.bind(this));
-
-    this.buildSimulationScene();
+    this.lastStepTimeStamp = null;   
+    window.requestAnimationFrame(this.initialSimulationStep.bind(this));
   }
 
   /**
    * Builds the simulation scene by filling it with pre-defined simulated objects.
    */
   buildSimulationScene(){
-    const borderWidth = 20;
-    this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));
-    this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));
-    this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));
-    this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));
+    const borderWidth = 0;
+    this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));  // Floor
+    this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));  // Ceiling
+    this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));                  // Left
+    this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));                  // Right
 
-    this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
-    this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
+    // this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
+    // this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
+
+    // Catapult
+    this.addSimulatedObject(new Vector(195, 730), new Box(20, 50, 0xFFFFFF));   // fulcrum
+    this.addSimulatedObject(new Vector(200, 680), new Box(200, 10, 0xFFFFFF));  // paddle for catapult
+    this.addSimulatedObject(new Vector(110, 670), new Box(10,10, 0xFF0000));    // red box
+
+    // Goal
+    this.addSimulatedObject(new Vector(600, 590), new Box(25, 350, 0xFFFFFF));  // goal pillar
+    this.addSimulatedObject(new Vector(600, 400), new Box(100, 10, 0xFFFFFF));  // goal bar
+    this.addSimulatedObject(new Vector(555, 360), new Box(10, 40, 0xFFFFFF));   // goal fork left
+    this.addSimulatedObject(new Vector(645, 360), new Box(10, 40, 0xFFFFFF));   // goal fork right
   }
   
   /**
@@ -152,7 +169,7 @@ export default class Simulator {
    */
   initialSimulationStep(initialTimeStamp) {
     this.lastStepTimeStamp = initialTimeStamp;
-    requestAnimationFrame(this.simulationStep.bind(this));
+    window.requestAnimationFrame(this.simulationStep.bind(this));
   }
 
   /**
@@ -162,21 +179,14 @@ export default class Simulator {
   simulationStep(timeStamp) {
     var deltaTime = timeStamp - this.lastStepTimeStamp;
     this.lastStepTimeStamp = timeStamp;
-    //console.log("step deltatime: " + deltaTime);
-    this.physicsWorld.step(deltaTime / 1000);
-
-    let gravity = new Options().getGravity();
-    if(!Number.isNaN(gravity)) {
-      this.physicsWorld.setGravity(planck.Vec2(0, gravity));
-    }
-    //console.log("set gravity to"  + gravity);
+    this.physicsWorld.step((deltaTime / 1000) * this.options.speed.value * !this.options.isPaused.value); // SPEED AND PAUSE IMPLEMENTED HERE
 
     for (const simulatedObject of this.simulatedObjects) {
       simulatedObject.updateRenderTransform(this.simulationAreaSize);
     }
 
     this.renderSimulation();
-    requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
+    window.requestAnimationFrame(this.simulationStep.bind(this)); // Request next step.
   }
 
   /**

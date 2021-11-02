@@ -1,25 +1,23 @@
+import Gravity from "./gravity.js";
+import IsPaused from "./is-paused.js";
+import Speed from "./speed.js";
+
+const DefaultOptions = {
+  GRAVITY: -9.81,
+  SPEED: 1,
+  IS_PAUSED: false
+}
+
 export default class Options {
-    constructor() {
-        this.gravityElement = document.getElementById("gravity");
-        this.gravity = parseFloat(this.gravityElement.value);
-        console.log("gravity = " + this.gravity);
+  static get DefaultOptions() {
+    return DefaultOptions;
+  }
 
-        this.speedElement = document.getElementById("speed");
-        this.speed = parseFloat(this.speedElement.value);
+  constructor(simulator) {
+    this.simulator = simulator;
 
-        this.pausedElement = document.getElementById("pause");
-        this.isPaused = this.pausedElement.checked;
-    }
-
-    getSpeed() {
-        return this.speed;
-    }
-
-    getGravity() {
-        return this.gravity;
-    }
-    
-    isPaused() {
-        return this.isPaused;
-    }
+    this.gravity = new Gravity(simulator, DefaultOptions.GRAVITY);
+    this.speed = new Speed(simulator, DefaultOptions.SPEED);
+    this.isPaused = new IsPaused(simulator, DefaultOptions.IS_PAUSED);
+  }
 }
