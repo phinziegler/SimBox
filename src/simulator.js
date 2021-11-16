@@ -2,6 +2,8 @@ import Vector from "./vector.js";
 import SimulatedObject from "./simulated-object.js";
 import Box from "./simulated-object-bodies/box.js";
 import Circle from "./simulated-object-bodies/circle.js";
+import Cloth from "./simulated-object-bodies/cloth.js";
+import Node from "./simulated-object-bodies/node.js";
 import SimulatedObjectBody from "./simulated-object-bodies/simulated-object-body.js";
 import Options from "./tools-and-input/options.js";
 import { Edge, ExtremePosition } from "./vector.js";
@@ -108,14 +110,16 @@ export default class Simulator {
    */
   buildSimulationScene(){
     const borderWidth = 0;
-    this.addStaticObject(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));  // Floor
-    this.addStaticObject(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));  // Ceiling
-    this.addStaticObject(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));                  // Left
-    this.addStaticObject(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));                  // Right
+    this.addStaticObjectAtExtremePos(ExtremePosition.BOTTOM_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.TOP, 0x00FF00));  // Floor
+    this.addStaticObjectAtExtremePos(ExtremePosition.TOP_CENTER, new BorderEdge(this.simulationAreaSize.x - borderWidth*2, borderWidth, Edge.BOTTOM, 0x000000));  // Ceiling
+    this.addStaticObjectAtExtremePos(ExtremePosition.MIDDLE_LEFT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.RIGHT, 0x000000));                  // Left
+    this.addStaticObjectAtExtremePos(ExtremePosition.MIDDLE_RIGHT, new BorderEdge(this.simulationAreaSize.x, borderWidth, Edge.LEFT, 0x000000));                  // Right
 
     // this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
     // this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
 
+    this.addStaticObject(new Vector(300, 500), new Node()); 
+    /* Goal and Catapult Rendering 
     // Catapult
     this.addSimulatedObject(new Vector(195, 730), new Box(20, 50, 0xFFFFFF));   // fulcrum
     this.addSimulatedObject(new Vector(200, 680), new Box(200, 10, 0xFFFFFF));  // paddle for catapult
@@ -126,6 +130,7 @@ export default class Simulator {
     this.addSimulatedObject(new Vector(600, 400), new Box(100, 10, 0xFFFFFF));  // goal bar
     this.addSimulatedObject(new Vector(555, 360), new Box(10, 40, 0xFFFFFF));   // goal fork left
     this.addSimulatedObject(new Vector(645, 360), new Box(10, 40, 0xFFFFFF));   // goal fork right
+    */
   }
   
   /**
@@ -147,10 +152,18 @@ export default class Simulator {
   }
   /**
    * Adds a static simulated object at given extreme screen position.
+   * @param {Vector} screenPos 
+   * @param {SimulatedObjectBody} simulatedObjectBody 
+   */
+  addStaticObject(screenPos, simulatedObjectBody){
+    this.addSimulatedObjectInternal(screenPos, simulatedObjectBody, "static");
+  }
+  /**
+   * Adds a static simulated object at given extreme screen position.
    * @param {Vector} extremePos 
    * @param {SimulatedObjectBody} simulatedObjectBody 
    */
-  addStaticObject(extremePos, simulatedObjectBody){
+  addStaticObjectAtExtremePos(extremePos, simulatedObjectBody){
     this.addSimulatedObjectAtExtremePosInternal(extremePos, simulatedObjectBody, "static");
   }
   /**
