@@ -64,7 +64,6 @@ describe("Simulator", () => {
   });
 
   describe("Object Creation", () => {
-
     function EmulateMouseDragCompletion(dragWidth, dragHeight) {
       inputHandler.toolsHandler.activeTool = "rectangle";
       let canvasBoundingRect = canvas.getBoundingClientRect();
@@ -111,25 +110,45 @@ describe("Simulator", () => {
     });
   });
 
-  afterAll(() => {
-    console.log("animation frames count: " + requestAnimationFrameCount);
-  });
-  test("should set canvas through constructor", () => {
-    expect(simulator.simulationCanvas).toEqual(canvas);
+  describe("Time Manipulation", () => {
+    test("should set speed on speed input field change", () => {
+      const newValue = 5;
+      const speedElement = document.getElementById("speed");
+      speedElement.value = newValue;
+      var event = new window.Event("input", { bubbles: true, cancelable: true });
+      speedElement.dispatchEvent(event);
+      expect(simulator.options.speed.value).toEqual(newValue);
+    });
+
+    function setPauseValue(newPauseValue){
+      const isPausedElement = document.getElementById("pause");
+      isPausedElement.checked = newPauseValue;
+      var event = new window.Event("change", { bubbles: true, cancelable: true });
+      isPausedElement.dispatchEvent(event);
+      expect(simulator.options.isPaused.value).toEqual(newPauseValue);
+    }
+    test("should pause simulation when pause button is clicked", () => {
+      setPauseValue(true);
+    });
+    test("should resume simulation when pause button is clicked", () => {
+      setPauseValue(false);
+    });
+
+    test("should end the simulation when the end button is clicked", () => {
+      document.getElementById("end").click();
+      expect(simulator.isEnded).toEqual(true);
+    });
   });
 
-  test("should construct and set options through constructor", () => {
-    expect(simulator.options).toBeInstanceOf(Options);
+  afterAll(() => {
+    console.log("animation frames count: " + requestAnimationFrameCount);
   });
 
   test("should set gravity with correct negativity on gravity input field change", () => {
     const newValue = 5;
     const gravityElement = document.getElementById("gravity");
     gravityElement.value = newValue;
-    var event = new window.Event("input", {
-      bubbles: true,
-      cancelable: true,
-    });
+    var event = new window.Event("input", { bubbles: true, cancelable: true });
     gravityElement.dispatchEvent(event);
     expect(simulator.options.gravity.value).toEqual(-newValue);
   });
@@ -139,35 +158,8 @@ describe("Simulator", () => {
     const newValue = "invalid, this is text, not a number";
     const gravityElement = document.getElementById("gravity");
     gravityElement.value = newValue;
-    var event = new window.Event("input", {
-      bubbles: true,
-      cancelable: true,
-    });
+    var event = new window.Event("input", { bubbles: true, cancelable: true });
     gravityElement.dispatchEvent(event);
     expect(simulator.options.gravity.value).toEqual(previousValue);
-  });
-
-  test("should set speed on speed input field change", () => {
-    const newValue = 5;
-    const speedElement = document.getElementById("speed");
-    speedElement.value = newValue;
-    var event = new window.Event("input", {
-      bubbles: true,
-      cancelable: true,
-    });
-    speedElement.dispatchEvent(event);
-    expect(simulator.options.speed.value).toEqual(newValue);
-  });
-
-  test("should set isPaused on pause checkbox change", () => {
-    const newValue = true;
-    const isPausedElement = document.getElementById("pause");
-    isPausedElement.checked = newValue;
-    var event = new window.Event("change", {
-      bubbles: true,
-      cancelable: true,
-    });
-    isPausedElement.dispatchEvent(event);
-    expect(simulator.options.isPaused.value).toEqual(newValue);
   });
 });

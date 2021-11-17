@@ -40,6 +40,7 @@ export default class Simulator {
      * @type {Options}
      */
     this.options = new Options(this);
+    this.isEnded = false;
     this.startSimulator();
   }
 
@@ -196,6 +197,9 @@ export default class Simulator {
    * @param {number} timeStamp The time at which the simulation step was called.
    */
   simulationStep(timeStamp) {
+    if (this.isEnded)
+      return;
+
     var deltaTime = timeStamp - this.lastStepTimeStamp;
     this.lastStepTimeStamp = timeStamp;
     this.physicsWorld.step((deltaTime / 1000) * this.options.speed.value * !this.options.isPaused.value); // SPEED AND PAUSE IMPLEMENTED HERE
@@ -213,6 +217,10 @@ export default class Simulator {
    */
   renderSimulation() {
     this.renderer.render(this.stage); // Render via PixiJS renderer.
+  }
+
+  endSimulation() {
+    this.isEnded = true;
   }
 
   /**

@@ -34,6 +34,11 @@ export default class InputHandler {
     this.canvas.addEventListener("mousedown", (e) => {
       this.onMousedown(this.mouseLocation(e));
     });
+
+    // END BUTTON
+    document.getElementById("end").addEventListener("click", () => {
+      this.simulator.endSimulation();
+    });
   }
 
   /**
