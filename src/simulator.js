@@ -148,7 +148,7 @@ export default class Simulator {
   deleteSimulatedObjectAtPoint(screenPoint) {
     const { simulatedObject, i } = this.getSimulatedObjectAtPoint(screenPoint);
     if (simulatedObject != null)
-      deleteSimulatedObject(simulatedObject, i);
+      this.deleteSimulatedObject(simulatedObject, i);
   }
 
   deleteSimulatedObject(simulatedObject, i) {
