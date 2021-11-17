@@ -165,6 +165,11 @@ export default class Simulator {
     }
   }
 
+  grabSimObj(screenPoint ){
+    const { simulatedObject } = this.getSimulatedObjectAtPoint(screenPoint);
+    return simulatedObject;
+  }
+
   clearAllSimulatedObjects() {
     for (var i = this.simulatedObjects.length - 1; i >= 0; i--)
       this.deleteSimulatedObject(this.simulatedObjects[i], i);
