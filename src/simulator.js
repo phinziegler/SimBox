@@ -2,8 +2,9 @@ import Vector from "./vector.js";
 import SimulatedObject from "./simulated-object.js";
 import Box from "./simulated-object-bodies/box.js";
 import Circle from "./simulated-object-bodies/circle.js";
-import Cloth from "./simulated-object-bodies/cloth.js";
+//import Cloth from "./simulated-object-bodies/cloth.js";
 import Node from "./simulated-object-bodies/node.js";
+import cEdge from "./simulated-object-bodies/edge.js";
 import SimulatedObjectBody from "./simulated-object-bodies/simulated-object-body.js";
 import Options from "./tools-and-input/options.js";
 import { Edge, ExtremePosition } from "./vector.js";
@@ -118,7 +119,30 @@ export default class Simulator {
     // this.addSimulatedObjectAtExtremePos(ExtremePosition.MIDDLE_CENTER, new Circle(100, 0x00FFFF));
     // this.addSimulatedObjectAtExtremePos(ExtremePosition.TOP_CENTER, new Box(200, 100, 0xFFFFFF));
 
-    this.addStaticObject(new Vector(300, 500), new Node()); 
+    // Cloth 
+    var cX = 220; 
+    var cY = 100; 
+    var mesh = 10; 
+    var len = 40; 
+    var nodes = []; 
+    var edges = []; 
+
+    for(var i = 0; i < len; i++){
+      var v = new Vector(cX, cY); 
+      var p = new Node(p); 
+      this.addStaticObject(v, p); 
+      nodes.push(p);
+      cX = cX + mesh; 
+    }
+    this.addStaticObject(new Vector(220,100), new Box(mesh, 2, 0xFF0000));
+
+    for(var i = 0; i < len-1; i++){
+      var p1 = nodes[i]; 
+      var p2 = nodes[i+1]; 
+      //var e = new cEdge(p1.getV(), p2.getV(), 0xFF0000);
+      //edges.push(e); 
+    }
+    
     /* Goal and Catapult Rendering 
     // Catapult
     this.addSimulatedObject(new Vector(195, 730), new Box(20, 50, 0xFFFFFF));   // fulcrum
@@ -144,8 +168,8 @@ export default class Simulator {
 
   /**
    * Adds a simulated object at the given extreme position.
-   * @param {*} extremePos 
-   * @param {*} simulatedObjectBody 
+   * @param {Vector} extremePos 
+   * @param {SimulatedObjectBody} simulatedObjectBody 
    */
   addSimulatedObjectAtExtremePos(extremePos, simulatedObjectBody){
     this.addSimulatedObjectAtExtremePosInternal(extremePos, simulatedObjectBody, "dynamic");
