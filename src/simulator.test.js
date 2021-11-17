@@ -1,5 +1,7 @@
 import Simulator from "./simulator.js";
+import InputHandler from "./tools-and-input/input-handler.js";
 import Options from "./tools-and-input/options.js";
+import Vector from "./vector.js";
 
 global.PIXI = jest.fn();
 global.PIXI.Renderer = jest.fn(() => {
@@ -34,6 +36,7 @@ const { JSDOM } = require("jsdom");
 describe("Simulator", () => {
   let canvas;
   let simulator;
+  let inputHandler;
   let requestAnimationFrameCount = 0;
   beforeAll(() => { // Async/await functions fail on my end.
     return JSDOM.fromFile("./index.html").then((dom) => { // Importantly, the scripts inside the html should not be loaded by JSDOM by default.
@@ -44,10 +47,57 @@ describe("Simulator", () => {
           return callback();
         }
       };
-      canvas = document.getElementById("canvas");
+      canvas = document.getElementById("simulationCanvas");
+      canvas.width = 800;
+      canvas.height = 800;
+      canvas.getBoundingClientRect = jest.fn(() => {
+        return {
+          width: 800,
+          height: 800,
+          left: 0,
+          top: 0
+        };
+      });
       simulator = new Simulator(canvas);
+      inputHandler = new InputHandler(simulator);
     });
   });
+
+  describe("Object Creation", () => {
+
+    function EmulateMouseDragCompletion(){
+      let canvasBoundingRect = canvas.getBoundingClientRect();
+      let canvasXCenter = canvasBoundingRect.left + (canvasBoundingRect.width)/2;
+      let canvasYCenter = canvasBoundingRect.top + (canvasBoundingRect.height)/2;
+      const mouseDownE = new window.MouseEvent("mousedown", {
+        clientX: canvasXCenter,
+        clientY: canvasYCenter,
+        bubbles: true,
+        cancelable: true
+      });
+      const mouseMoveE = new window.MouseEvent("mousemove", {
+        clientX: canvasXCenter + 100,
+        clientY: canvasYCenter + 100,
+        bubbles: true,
+        cancelable: true
+      });
+      const mouseUpE = new window.MouseEvent("mouseup", {
+        bubbles: true,
+        cancelable: true
+      });
+      canvas.dispatchEvent(mouseDownE);
+      canvas.dispatchEvent(mouseMoveE);
+      canvas.dispatchEvent(mouseUpE);
+    }
+
+    test("should place simulated object from mouse input", () => {
+      const previousSimulatedObjectsCount = simulator.simulatedObjects.length;
+      EmulateMouseDragCompletion();
+      const newSimulatedObjectsCount = simulator.simulatedObjects.length;
+      expect(newSimulatedObjectsCount == (previousSimulatedObjectsCount + 1)).toBeTruthy();
+    });
+  });
+
   afterAll(() => {
     console.log("animation frames count: " + requestAnimationFrameCount);
   });
