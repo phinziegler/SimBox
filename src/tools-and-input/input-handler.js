@@ -39,6 +39,39 @@ export default class InputHandler {
     document.getElementById("end").addEventListener("click", () => {
       this.simulator.endSimulation();
     });
+
+    this.simulator.clearSimulatedObjects();
+    this.emulateMouseDragCompletionAtPos(0, 0, 100, 100, "rectangle");
+  }
+
+  emulateMouseDragCompletionAtPos(dragLeftPos, dragTopPos, dragWidth, dragHeight, toolId) {
+    this.toolsHandler.activeTool = toolId;
+    let canvasBoundingRect = this.canvas.getBoundingClientRect();
+    const startX = canvasBoundingRect.left + dragLeftPos;
+    const startY = canvasBoundingRect.top + dragTopPos;
+    const endX = startX + dragWidth;
+    const endY = startY + dragHeight;
+    const mouseDownE = new window.MouseEvent("mousedown", {
+      clientX: startX,
+      clientY: startY,
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseMoveE = new window.MouseEvent("mousemove", {
+      clientX: endX,
+      clientY: endY,
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseUpE = new window.MouseEvent("mouseup", {
+      clientX: endX,
+      clientY: endY,
+      bubbles: true,
+      cancelable: true
+    });
+    this.canvas.dispatchEvent(mouseDownE);
+    this.canvas.dispatchEvent(mouseMoveE);
+    this.canvas.dispatchEvent(mouseUpE);
   }
 
   /**
@@ -115,14 +148,14 @@ export default class InputHandler {
     switch (tool) {
       case Tool.RECTANGLE:
         console.log(`Rectangle: ${startPos} to ${endPos}\nCentered at: ${centerDragAreaPos}\nSize: ${dragAreaSize}`);
-        this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, this.#randomColor()));
+        this.simulator.addSimulatedObject(centerDragAreaPos, new Box(dragAreaSize.x, dragAreaSize.y, this.randomColor()));
         break;
 
       case Tool.CIRCLE:
         const circleRadius = Math.sqrt(Math.pow(dragAreaSize.x,2) + Math.pow(dragAreaSize.y,2))/2;
         const circleCenterPos = new Vector(endPos.x - ((dragAreaSize.x/2) * startToEndDragDirection.x), endPos.y - ((dragAreaSize.y/2) * startToEndDragDirection.y));
         console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
-        this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.#randomColor()));
+        this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.randomColor()));
         break;
       case Tool.GRAB:
         throw new Error(tool + " tool unimplemented");
@@ -156,13 +189,13 @@ export default class InputHandler {
   }
 
   // HELPER: generates a random color in hexadecimal form
-  #randomColor() {
+  randomColor() {
     let hue = Math.random() * 360;
     let sat = 100;
     let light = 50 + (Math.random() * 20);
-    return parseInt(this.#hslToHex(hue, sat, light),16);
+    return parseInt(this.hslToHex(hue, sat, light),16);
   }
-  #hslToHex(h, s, l) {
+  hslToHex(h, s, l) {
     l /= 100;
     const a = s * Math.min(l, 1 - l) / 100;
     const f = n => {

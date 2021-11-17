@@ -165,9 +165,17 @@ export default class Simulator {
     }
   }
 
-  clearSimulatedObjects() {
+  clearAllSimulatedObjects() {
     for (var i = this.simulatedObjects.length - 1; i >= 0; i--)
       this.deleteSimulatedObject(this.simulatedObjects[i], i);
+  }
+  clearSimulatedObjects() { // clears except for border
+    for (var i = this.simulatedObjects.length - 1; i >= 0; i--){
+      const simObj = this.simulatedObjects[i];
+      if (!(simObj.simulatedObjectBody instanceof BorderEdge)){
+        this.deleteSimulatedObject(simObj, i);
+      }
+    }
   }
 
   /**
