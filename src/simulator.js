@@ -128,6 +128,25 @@ export default class Simulator {
     this.addSimulatedObject(new Vector(645, 360), new Box(10, 40, 0xFFFFFF));   // goal fork right
   }
   
+  deleteSimulatedObject(screenPoint) {
+    const worldPoint = screenPoint.screenToSimulationPos(this.simulationAreaSize);
+    for (var i = 0; i < this.simulatedObjects.length; i++) {
+      const simulatedObject = this.simulatedObjects[i];
+      let fixture = simulatedObject.physicsEngineBody.getFixtureList();
+      while (fixture != null)
+      {
+        if (fixture.testPoint(worldPoint)){
+          const isSuccessful = this.physicsWorld.destroyBody(simulatedObject.physicsEngineBody);
+          this.renderObjectsContainer.removeChild(simulatedObject.renderContainer);
+          this.simulatedObjects.splice(i, 1);
+          return isSuccessful;
+        }
+        fixture = fixture.getNext();
+      }
+    }
+    console.log("nothing found for deletion");
+  }
+
   /**
    * Adds a simulated object of a given simulated object body at a specified position.
    * @param {Vector} screenPos The position in screen space to add the object.

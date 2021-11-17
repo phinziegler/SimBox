@@ -6,6 +6,7 @@ import toggleMenu, * as name from "../menus.js";
 export const Tool = {
   RECTANGLE: "rectangle",
   CIRCLE: "circle",
+  DELETE: "delete",
   SELECT: "select",
   GRAB: "grab",
 }

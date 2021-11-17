@@ -11,12 +11,16 @@ export default class SimulatedObjectBody {
     }
   }
 
+  init() {
+    this.physicsEngineObject = this.createPhysicsEngineObject();
+  }
+
   /**
-   * Gets the physics engine object of this body.
+   * Creates the physics engine object of this body.
    * @abstract
    */
-  getPhysicsEngineObject() {
-    throw new Error("Method 'getPhysicsEngineObject()' must be implemented.");
+   createPhysicsEngineObject() {
+    throw new Error("Method 'createPhysicsEngineObject()' must be implemented.");
   }
   /**
    * Draws and returns the graphics object of this body. 

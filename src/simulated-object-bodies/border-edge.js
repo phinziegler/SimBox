@@ -23,9 +23,10 @@ export default class BorderEdge extends SimulatedObjectBody {
       this.rectWidth = this.width;
       this.rectHeight = this.length;
     }
+    this.init();
   }
 
-  getPhysicsEngineObject() {
+  createPhysicsEngineObject() {
     let startPos = null;
     let endPos = null;
     if (this.edgeSide.y != 0) {

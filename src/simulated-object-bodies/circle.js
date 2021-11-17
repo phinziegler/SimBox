@@ -10,9 +10,10 @@ export default class Circle extends SimulatedObjectBody {
     super();
     this.radius = radius;
     this.color = color;
+    this.init();
   }
 
-  getPhysicsEngineObject() {
+  createPhysicsEngineObject() {
     return planck.Circle(this.radius * Simulator.pixelsToMetersScalar);
   }
 

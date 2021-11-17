@@ -48,8 +48,8 @@ export default class InputHandler {
         this.listenForDragComplete(mousePos);
         break;
 
-      case Tool.SELECT:
-        throw new Error(tool + " tool unimplemented");
+      case Tool.DELETE:
+        this.simulator.deleteSimulatedObject(mousePos);
         break;
       case Tool.GRAB:
         throw new Error(tool + " tool unimplemented");
@@ -115,10 +115,6 @@ export default class InputHandler {
         const circleCenterPos = new Vector(endPos.x - ((dragAreaSize.x/2) * startToEndDragDirection.x), endPos.y - ((dragAreaSize.y/2) * startToEndDragDirection.y));
         console.log(`Circle: ${startPos} to ${endPos}\nCentered at: ${circleCenterPos}\nRadius: ${circleRadius}`);
         this.simulator.addSimulatedObject(circleCenterPos, new Circle(circleRadius, this.#randomColor()));
-        break;
-
-      case Tool.SELECT:
-        throw new Error(tool + " tool unimplemented");
         break;
       case Tool.GRAB:
         throw new Error(tool + " tool unimplemented");

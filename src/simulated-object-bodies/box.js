@@ -11,9 +11,10 @@ export default class Box extends SimulatedObjectBody {
     this.width = width;
     this.height = height;
     this.color = color;
+    this.init();
   }
 
-  getPhysicsEngineObject() {
+  createPhysicsEngineObject() {
     return planck.Box((this.width/2)*Simulator.pixelsToMetersScalar, (this.height/2)*Simulator.pixelsToMetersScalar);
   }
 
