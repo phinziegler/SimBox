@@ -24,6 +24,16 @@ export default class SimulatedObject {
     
     this.renderContainer = new PIXI.Container();
     this.renderContainer.addChild(simulatedObjectBody.drawGraphicsObject());
+
+    this.isPinned = false;
+  }
+
+  get isPinned() {
+    return this._isPinned;
+  }
+  set isPinned(isPinned) {
+    this._isPinned = isPinned;
+    this.physicsEngineBody.setGravityScale(isPinned ? 0 : 1);
   }
 
   /**

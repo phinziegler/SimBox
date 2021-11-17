@@ -7,6 +7,7 @@ export const Tool = {
   RECTANGLE: "rectangle",
   CIRCLE: "circle",
   DELETE: "delete",
+  PIN_UNPIN: "pinUnpin",
   SELECT: "select",
   GRAB: "grab",
 }

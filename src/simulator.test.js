@@ -140,26 +140,35 @@ describe("Simulator", () => {
     });
   });
 
+  describe("Gravity", () => {
+    function setGravity(newValue){
+      const gravityElement = document.getElementById("gravity");
+      gravityElement.value = newValue;
+      var event = new window.Event("input", { bubbles: true, cancelable: true });
+      gravityElement.dispatchEvent(event);
+    }
+    test("should set gravity with correct negativity on gravity input field change", () => {
+      const newValue = 5;
+      setGravity(newValue);
+      expect(simulator.options.gravity.value).toEqual(-newValue);
+    });
+  
+    test("should not set invalid input for gravity", () => {
+      const previousValue = simulator.options.gravity.value;
+      const newValue = "invalid, this is text, not a number";
+      setGravity(newValue);
+      expect(simulator.options.gravity.value).toEqual(previousValue);
+    });
+
+    test("pinned objects should not be affected by gravity", () => {
+      
+      setGravity(9);
+
+      expect(simulator.options.gravity.value).toEqual(previousValue);
+    });
+  });
+
   afterAll(() => {
     console.log("animation frames count: " + requestAnimationFrameCount);
-  });
-
-  test("should set gravity with correct negativity on gravity input field change", () => {
-    const newValue = 5;
-    const gravityElement = document.getElementById("gravity");
-    gravityElement.value = newValue;
-    var event = new window.Event("input", { bubbles: true, cancelable: true });
-    gravityElement.dispatchEvent(event);
-    expect(simulator.options.gravity.value).toEqual(-newValue);
-  });
-
-  test("should not set invalid input for gravity", () => {
-    const previousValue = simulator.options.gravity.value;
-    const newValue = "invalid, this is text, not a number";
-    const gravityElement = document.getElementById("gravity");
-    gravityElement.value = newValue;
-    var event = new window.Event("input", { bubbles: true, cancelable: true });
-    gravityElement.dispatchEvent(event);
-    expect(simulator.options.gravity.value).toEqual(previousValue);
   });
 });

@@ -128,24 +128,38 @@ export default class Simulator {
     this.addSimulatedObject(new Vector(555, 360), new Box(10, 40, 0xFFFFFF));   // goal fork left
     this.addSimulatedObject(new Vector(645, 360), new Box(10, 40, 0xFFFFFF));   // goal fork right
   }
-  
-  deleteSimulatedObject(screenPoint) {
+
+  getSimulatedObjectAtPoint(screenPoint){
     const worldPoint = screenPoint.screenToSimulationPos(this.simulationAreaSize);
     for (var i = 0; i < this.simulatedObjects.length; i++) {
       const simulatedObject = this.simulatedObjects[i];
       let fixture = simulatedObject.physicsEngineBody.getFixtureList();
       while (fixture != null)
       {
-        if (fixture.testPoint(worldPoint)){
-          const isSuccessful = this.physicsWorld.destroyBody(simulatedObject.physicsEngineBody);
-          this.renderObjectsContainer.removeChild(simulatedObject.renderContainer);
-          this.simulatedObjects.splice(i, 1);
-          return isSuccessful;
-        }
+        if (fixture.testPoint(worldPoint))
+          return { simulatedObject, i };
         fixture = fixture.getNext();
       }
     }
-    console.log("nothing found for deletion");
+    console.log("object not found at point");
+    return { simulatedObject: null, i: -1 };
+  }
+  
+  deleteSimulatedObject(screenPoint) {
+    const { simulatedObject, i } = this.getSimulatedObjectAtPoint(screenPoint);
+    if (simulatedObject != null){
+      const isSuccessful = this.physicsWorld.destroyBody(simulatedObject.physicsEngineBody);
+      this.renderObjectsContainer.removeChild(simulatedObject.renderContainer);
+      this.simulatedObjects.splice(i, 1);
+      return isSuccessful;
+    }
+  }
+
+  pinToggleSimulatedObject(screenPoint) {
+    const { simulatedObject } = this.getSimulatedObjectAtPoint(screenPoint);
+    if (simulatedObject != null){
+      simulatedObject.isPinned = !simulatedObject.isPinned;
+    }
   }
 
   /**
