@@ -178,6 +178,63 @@ describe("Simulator", () => {
     });
   });
 
+  describe("Menu", () => {
+    let canvas;
+    let simulator;
+    let inputHandler;
+    let requestAnimationFrameCount = 0;
+
+    beforeAll(() => { // Async/await functions fail on my end.
+      return JSDOM.fromFile("./index.html").then((dom) => { // Importantly, the scripts inside the html should not be loaded by JSDOM by default.
+        global.window = dom.window;
+        global.document = dom.window.document;
+        global.window.requestAnimationFrame = function (callback) {
+          if (++requestAnimationFrameCount < 10){
+            return callback();
+          }
+        };
+        canvas = document.getElementById("simulationCanvas");
+        canvas.width = 800;
+        canvas.height = 800;
+        canvas.getBoundingClientRect = jest.fn(() => {
+          return {
+            width: 800,
+            height: 800,
+            left: 0,
+            top: 0
+          };
+        });
+        simulator = new Simulator(canvas);
+      inputHandler = new InputHandler(simulator);
+      });
+    });
+
+    test("should open or close tool menu when clicked", () => {
+      document.getElementById("toolButton").click();
+      expect(document.getElementById("tools").getAttribute("class")).toEqual("open");
+      document.getElementById("toolButton").click();
+      expect(document.getElementById("tools").getAttribute("class")).toEqual("closed");
+    });
+
+    test("should open or close option menu when clicked", () => {
+      document.getElementById("optionButton").click();
+      expect(document.getElementById("options").getAttribute("class")).toEqual("open");
+      document.getElementById("optionButton").click();
+      expect(document.getElementById("options").getAttribute("class")).toEqual("closed");
+    });
+
+    test("should have accurate active tool indicator when clicked", () => {
+      // rectangle
+      document.getElementById("toolButton").click();
+      document.getElementById("rectangle").click();
+      expect(inputHandler.toolsHandler.activeTool).toEqual("rectangle");
+      // grab
+      document.getElementById("toolButton").click();
+      document.getElementById("grab").click();
+      expect(inputHandler.toolsHandler.activeTool).toEqual("grab");
+    });
+  });
+
   afterAll(() => {
     console.log("animation frames count: " + requestAnimationFrameCount);
   });
