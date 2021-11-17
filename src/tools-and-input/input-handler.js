@@ -30,9 +30,14 @@ export default class InputHandler {
      */
     this.toolsHandler = new ToolsHandler();
 
+    this.canvas.inputHandler = this;
     // Listen for mousedown events on the canvas.
     this.canvas.addEventListener("mousedown", (e) => {
       this.onMousedown(this.mouseLocation(e));
+    });
+
+    this.canvas.addEventListener("mousemove", (e) => {
+      this.onMouseMove(this.mouseLocation(e));
     });
 
     // END BUTTON
@@ -40,10 +45,11 @@ export default class InputHandler {
       this.simulator.endSimulation();
     });
 
-    this.simulator.clearSimulatedObjects();
-    this.emulateMouseDragCompletionAtPos(0, 0, 100, 100, "rectangle");
+    this.grabbedSimObj = null;
+    //this.simulator.clearSimulatedObjects();
+    //this.emulateMouseDragCompletionAtPos(0, 0, 100, 100, "rectangle");
   }
-
+  /*
   emulateMouseDragCompletionAtPos(dragLeftPos, dragTopPos, dragWidth, dragHeight, toolId) {
     this.toolsHandler.activeTool = toolId;
     let canvasBoundingRect = this.canvas.getBoundingClientRect();
@@ -73,6 +79,7 @@ export default class InputHandler {
     this.canvas.dispatchEvent(mouseMoveE);
     this.canvas.dispatchEvent(mouseUpE);
   }
+  */
 
   /**
    * Performs response actions when the user presses the mouse button down on the simulation area.
@@ -93,7 +100,13 @@ export default class InputHandler {
         this.simulator.pinToggleSimulatedObject(mousePos);
         break;
       case Tool.GRAB:
-        throw new Error(tool + " tool unimplemented");
+        this.grabbedSimObj = this.simulator.grabSimObj(mousePos);
+        console.log("mousedown");
+        this.canvas.addEventListener("mouseup", function onMouseup(e) {
+          console.log("mouseup: " + e.currentTarget.inputHandler.grabbedSimObj);
+          e.currentTarget.inputHandler.grabbedSimObj = null;
+          e.currentTarget.removeEventListener("mouseup", onMouseup);
+        });
         break;
       /* case "clothNode":
         throw new Error(tool + " tool unimplemented");
@@ -122,12 +135,18 @@ export default class InputHandler {
     }
   }
 
+  onMouseMove(mousePos){
+    //console.log("grabbing: " + this.grabbedSimObj + " - " + mousePos);
+    if (this.grabbedSimObj != null){
+      this.grabbedSimObj.physicsEngineBody.setPosition(mousePos.screenToSimulationPos(this.simulator.simulationAreaSize));
+    }
+  }
+
   /**
    * Begins listening for the mouse button to release, meaning that a click and drag action was completed by the user.
    * @param {Vector} dragStartPos The starting mouse position in screen space of the user's drag.
    */
   listenForDragComplete(dragStartPos) {
-    this.canvas.inputHandler = this;
     this.canvas.addEventListener("mouseup", function onMouseup(e) {
       e.currentTarget.inputHandler.dragComplete(dragStartPos, e.currentTarget.inputHandler.mouseLocation(e));
       e.currentTarget.removeEventListener("mouseup", onMouseup);
