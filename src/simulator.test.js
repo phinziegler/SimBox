@@ -1,7 +1,10 @@
+
 import Simulator from "./simulator.js";
 import InputHandler from "./tools-and-input/input-handler.js";
 import Options from "./tools-and-input/options.js";
 import Vector from "./vector.js";
+import Circle from "./simulated-object-bodies/circle.js";
+import Box from "./simulated-object-bodies/box.js";
 
 global.PIXI = jest.fn();
 global.PIXI.Renderer = jest.fn(() => {
@@ -60,12 +63,15 @@ describe("Simulator", () => {
         };
       });
       simulator = new Simulator(canvas);
-    inputHandler = new InputHandler(simulator);
+      inputHandler = new InputHandler(simulator);
     });
   });
 
-  function EmulateMouseDragCompletion(dragWidth, dragHeight) {
-    inputHandler.toolsHandler.activeTool = "rectangle";
+  function setActiveTool(toolId){
+    inputHandler.toolsHandler.activeTool = toolId;
+  }
+  function emulateMouseDragCompletion(dragWidth, dragHeight, toolId) {
+    setActiveTool(toolId);
     let canvasBoundingRect = canvas.getBoundingClientRect();
     const startX = canvasBoundingRect.left;
     const startY = canvasBoundingRect.top;
@@ -97,7 +103,7 @@ describe("Simulator", () => {
   describe("Object Creation", () => {
     test("should place simulated object from mouse input", () => {
       const previousSimulatedObjectsCount = simulator.simulatedObjects.length;
-      EmulateMouseDragCompletion(100, 100);
+      emulateMouseDragCompletion(100, 100, "rectangle");
       const newSimulatedObjectsCount = simulator.simulatedObjects.length;
       console.log("before: " + previousSimulatedObjectsCount + ", after: " + newSimulatedObjectsCount);
       expect(newSimulatedObjectsCount == (previousSimulatedObjectsCount + 1)).toBeTruthy();
@@ -106,7 +112,8 @@ describe("Simulator", () => {
     test("should place simulated object from mouse input with correct size", () => {
       const dragWidth = 200;
       const dragHeight = 100;
-      EmulateMouseDragCompletion(dragWidth, dragHeight);
+      setActiveTool("rectangle");
+      emulateMouseDragCompletion(dragWidth, dragHeight, "rectangle");
       const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
       expect(simulatedObjBody.width == dragWidth && simulatedObjBody.height == dragHeight).toBeTruthy();
     });
@@ -166,7 +173,7 @@ describe("Simulator", () => {
     });
 
     test("pinned objects should not be affected by gravity", () => {
-      EmulateMouseDragCompletion(100, 100);
+      emulateMouseDragCompletion(100, 100, "rectangle");
       const simulatedObj = simulator.simulatedObjects[0];
       const startPos = simulatedObj.simulationPos;
       simulatedObj.isPinned = true;
@@ -175,6 +182,24 @@ describe("Simulator", () => {
       const endPos = simulatedObj.simulationPos;
       //console.log("falling object test: " + startPos + " - " + endPos + " - " + simulator.simulatedObjects.length);
       expect(startPos).toEqual(endPos);
+    });
+  });
+
+  describe("Rigid Body", () => {
+    beforeAll(() => {
+      simulator.clearSimulatedObjects();
+    });
+    test("should create a circle from click and drag with circle tool", () => {
+      emulateMouseDragCompletion(100, 100, "circle");
+      const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
+      console.log(typeof simulatedObjBody);
+      expect(simulatedObjBody instanceof Circle).toBeTruthy();
+    });
+    test("should create a rectangle from click and drag with rectangle tool", () => {
+      emulateMouseDragCompletion(100, 100, "rectangle");
+      const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
+      console.log(typeof simulatedObjBody);
+      expect(simulatedObjBody instanceof Box).toBeTruthy();
     });
   });
 
