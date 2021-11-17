@@ -36,14 +36,17 @@ export default class SimulatedObject {
     this.physicsEngineBody.setGravityScale(isPinned ? 0 : 1);
   }
 
+  get simulationPos() {
+    return Vector.fromObject(this.physicsEngineBody.getPosition());
+  }
+
   /**
    * Updates the graphical properties of the simulated object, syncing its rendered geometry with the current kinematic properties of the physics engine's respective object.
    * @param {Vector} simulationAreaSize The size in pixels of the simulation area.
    */
   updateRenderTransform(simulationAreaSize){
     // Update position.
-    var simulationPos = Vector.fromObject(this.physicsEngineBody.getPosition());
-    var renderPos = simulationPos.simulationToScreenPos(simulationAreaSize);
+    var renderPos = this.simulationPos.simulationToScreenPos(simulationAreaSize);
     this.renderContainer.x = renderPos.x;
     this.renderContainer.y = renderPos.y;
 

@@ -145,14 +145,17 @@ export default class Simulator {
     return { simulatedObject: null, i: -1 };
   }
   
-  deleteSimulatedObject(screenPoint) {
+  deleteSimulatedObjectAtPoint(screenPoint) {
     const { simulatedObject, i } = this.getSimulatedObjectAtPoint(screenPoint);
-    if (simulatedObject != null){
-      const isSuccessful = this.physicsWorld.destroyBody(simulatedObject.physicsEngineBody);
-      this.renderObjectsContainer.removeChild(simulatedObject.renderContainer);
-      this.simulatedObjects.splice(i, 1);
-      return isSuccessful;
-    }
+    if (simulatedObject != null)
+      deleteSimulatedObject(simulatedObject, i);
+  }
+
+  deleteSimulatedObject(simulatedObject, i) {
+    const isSuccessful = this.physicsWorld.destroyBody(simulatedObject.physicsEngineBody);
+    this.renderObjectsContainer.removeChild(simulatedObject.renderContainer);
+    this.simulatedObjects.splice(i, 1);
+    return isSuccessful;
   }
 
   pinToggleSimulatedObject(screenPoint) {
@@ -160,6 +163,11 @@ export default class Simulator {
     if (simulatedObject != null){
       simulatedObject.isPinned = !simulatedObject.isPinned;
     }
+  }
+
+  clearSimulatedObjects() {
+    for (var i = this.simulatedObjects.length - 1; i >= 0; i--)
+      this.deleteSimulatedObject(this.simulatedObjects[i], i);
   }
 
   /**

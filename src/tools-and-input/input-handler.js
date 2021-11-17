@@ -54,7 +54,7 @@ export default class InputHandler {
         break;
 
       case Tool.DELETE:
-        this.simulator.deleteSimulatedObject(mousePos);
+        this.simulator.deleteSimulatedObjectAtPoint(mousePos);
         break;
       case Tool.PIN_UNPIN:
         this.simulator.pinToggleSimulatedObject(mousePos);

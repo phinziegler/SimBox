@@ -11,7 +11,8 @@ global.PIXI.Renderer = jest.fn(() => {
 });
 global.PIXI.Container = jest.fn(() => {
   return {
-    addChild: jest.fn()
+    addChild: jest.fn(),
+    removeChild: jest.fn()
   };
 });
 global.PIXI.Graphics = jest.fn(() => {
@@ -32,12 +33,12 @@ global.planck = require('planck-js');
 
 const { JSDOM } = require("jsdom");
 
-
 describe("Simulator", () => {
   let canvas;
   let simulator;
   let inputHandler;
   let requestAnimationFrameCount = 0;
+
   beforeAll(() => { // Async/await functions fail on my end.
     return JSDOM.fromFile("./index.html").then((dom) => { // Importantly, the scripts inside the html should not be loaded by JSDOM by default.
       global.window = dom.window;
@@ -59,45 +60,46 @@ describe("Simulator", () => {
         };
       });
       simulator = new Simulator(canvas);
-      inputHandler = new InputHandler(simulator);
+    inputHandler = new InputHandler(simulator);
     });
   });
 
-  describe("Object Creation", () => {
-    function EmulateMouseDragCompletion(dragWidth, dragHeight) {
-      inputHandler.toolsHandler.activeTool = "rectangle";
-      let canvasBoundingRect = canvas.getBoundingClientRect();
-      const startX = canvasBoundingRect.left;
-      const startY = canvasBoundingRect.top;
-      const endX = startX + dragWidth;
-      const endY = startY + dragHeight;
-      const mouseDownE = new window.MouseEvent("mousedown", {
-        clientX: startX,
-        clientY: startY,
-        bubbles: true,
-        cancelable: true
-      });
-      const mouseMoveE = new window.MouseEvent("mousemove", {
-        clientX: endX,
-        clientY: endY,
-        bubbles: true,
-        cancelable: true
-      });
-      const mouseUpE = new window.MouseEvent("mouseup", {
-        clientX: endX,
-        clientY: endY,
-        bubbles: true,
-        cancelable: true
-      });
-      canvas.dispatchEvent(mouseDownE);
-      canvas.dispatchEvent(mouseMoveE);
-      canvas.dispatchEvent(mouseUpE);
-    }
+  function EmulateMouseDragCompletion(dragWidth, dragHeight) {
+    inputHandler.toolsHandler.activeTool = "rectangle";
+    let canvasBoundingRect = canvas.getBoundingClientRect();
+    const startX = canvasBoundingRect.left;
+    const startY = canvasBoundingRect.top;
+    const endX = startX + dragWidth;
+    const endY = startY + dragHeight;
+    const mouseDownE = new window.MouseEvent("mousedown", {
+      clientX: startX,
+      clientY: startY,
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseMoveE = new window.MouseEvent("mousemove", {
+      clientX: endX,
+      clientY: endY,
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseUpE = new window.MouseEvent("mouseup", {
+      clientX: endX,
+      clientY: endY,
+      bubbles: true,
+      cancelable: true
+    });
+    canvas.dispatchEvent(mouseDownE);
+    canvas.dispatchEvent(mouseMoveE);
+    canvas.dispatchEvent(mouseUpE);
+  }
 
+  describe("Object Creation", () => {
     test("should place simulated object from mouse input", () => {
       const previousSimulatedObjectsCount = simulator.simulatedObjects.length;
       EmulateMouseDragCompletion(100, 100);
       const newSimulatedObjectsCount = simulator.simulatedObjects.length;
+      console.log("before: " + previousSimulatedObjectsCount + ", after: " + newSimulatedObjectsCount);
       expect(newSimulatedObjectsCount == (previousSimulatedObjectsCount + 1)).toBeTruthy();
     });
 
@@ -141,6 +143,9 @@ describe("Simulator", () => {
   });
 
   describe("Gravity", () => {
+    beforeAll(() => {
+      simulator.clearSimulatedObjects();
+    });
     function setGravity(newValue){
       const gravityElement = document.getElementById("gravity");
       gravityElement.value = newValue;
@@ -161,10 +166,15 @@ describe("Simulator", () => {
     });
 
     test("pinned objects should not be affected by gravity", () => {
-      
+      EmulateMouseDragCompletion(100, 100);
+      const simulatedObj = simulator.simulatedObjects[0];
+      const startPos = simulatedObj.simulationPos;
+      simulatedObj.isPinned = true;
       setGravity(9);
-
-      expect(simulator.options.gravity.value).toEqual(previousValue);
+      simulator.physicsWorld.step(1);
+      const endPos = simulatedObj.simulationPos;
+      //console.log("falling object test: " + startPos + " - " + endPos + " - " + simulator.simulatedObjects.length);
+      expect(startPos).toEqual(endPos);
     });
   });
 
