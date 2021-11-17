@@ -67,14 +67,14 @@ describe("Simulator", () => {
     });
   });
 
-  function setActiveTool(toolId){
-    inputHandler.toolsHandler.activeTool = toolId;
-  }
   function emulateMouseDragCompletion(dragWidth, dragHeight, toolId) {
-    setActiveTool(toolId);
+    emulateMouseDragCompletionAtPos(0, 0, dragWidth, dragHeight, toolId);
+  }
+  function emulateMouseDragCompletionAtPos(dragLeftPos, dragTopPos, dragWidth, dragHeight, toolId) {
+    inputHandler.toolsHandler.activeTool = toolId;
     let canvasBoundingRect = canvas.getBoundingClientRect();
-    const startX = canvasBoundingRect.left;
-    const startY = canvasBoundingRect.top;
+    const startX = canvasBoundingRect.left + dragLeftPos;
+    const startY = canvasBoundingRect.top + dragTopPos;
     const endX = startX + dragWidth;
     const endY = startY + dragHeight;
     const mouseDownE = new window.MouseEvent("mousedown", {
@@ -100,6 +100,7 @@ describe("Simulator", () => {
     canvas.dispatchEvent(mouseUpE);
   }
 
+
   describe("Object Creation", () => {
     test("should place simulated object from mouse input", () => {
       const previousSimulatedObjectsCount = simulator.simulatedObjects.length;
@@ -112,7 +113,6 @@ describe("Simulator", () => {
     test("should place simulated object from mouse input with correct size", () => {
       const dragWidth = 200;
       const dragHeight = 100;
-      setActiveTool("rectangle");
       emulateMouseDragCompletion(dragWidth, dragHeight, "rectangle");
       const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
       expect(simulatedObjBody.width == dragWidth && simulatedObjBody.height == dragHeight).toBeTruthy();
@@ -174,36 +174,44 @@ describe("Simulator", () => {
 
     test("pinned objects should not be affected by gravity", () => {
       emulateMouseDragCompletion(100, 100, "rectangle");
-      const simulatedObj = simulator.simulatedObjects[0];
+      const simulatedObj = simulator.simulatedObjects[simulator.simulatedObjects.length - 1];
       const startPos = simulatedObj.simulationPos;
       simulatedObj.isPinned = true;
       setGravity(9);
-      simulator.physicsWorld.step(1);
+      for (var i = 0; i < 1000; i++){
+        simulator.physicsWorld.step(0.005);
+      }
       const endPos = simulatedObj.simulationPos;
-      //console.log("falling object test: " + startPos + " - " + endPos + " - " + simulator.simulatedObjects.length);
-      expect(startPos).toEqual(endPos);
+      console.log("falling object test: " + startPos + " - " + endPos + " - " + simulator.simulatedObjects.length);
+      expect(Math.abs(startPos.x - endPos.x) < 0.1 && Math.abs(startPos.y - endPos.y) < 0.1).toBeTruthy();
     });
   });
 
   describe("Rigid Body", () => {
-    beforeAll(() => {
+    beforeEach(() => {
       simulator.clearSimulatedObjects();
     });
     test("should create a circle from click and drag with circle tool", () => {
       emulateMouseDragCompletion(100, 100, "circle");
       const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
-      console.log(typeof simulatedObjBody);
       expect(simulatedObjBody instanceof Circle).toBeTruthy();
     });
     test("should create a rectangle from click and drag with rectangle tool", () => {
       emulateMouseDragCompletion(100, 100, "rectangle");
       const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
-      console.log(typeof simulatedObjBody);
       expect(simulatedObjBody instanceof Box).toBeTruthy();
     });
-  });
-
-  afterAll(() => {
-    console.log("animation frames count: " + requestAnimationFrameCount);
+    test("rigid bodies should collide with one another", () => {
+      emulateMouseDragCompletionAtPos(0, 300, 100, 100, "rectangle");
+      emulateMouseDragCompletionAtPos(0, 100, 100, 100, "rectangle");
+      const simulatedBodyA = simulator.simulatedObjects[simulator.simulatedObjects.length - 2];
+      const simulatedBodyB = simulator.simulatedObjects[simulator.simulatedObjects.length - 1];
+      //console.log("B: " + simulatedBodyA.simulationPos + " - " + simulatedBodyB.simulationPos + " -- " + simulator.simulatedObjects.length + " - " + simulator.options.gravity.value);
+      for (var i = 0; i < 1000; i++){
+        simulator.physicsWorld.step(0.005);
+      }
+      //console.log("A: " + simulatedBodyA.simulationPos + " - " + simulatedBodyB.simulationPos);
+      expect(simulatedBodyB.simulationPos.y > simulatedBodyA.simulationPos.y).toBeTruthy();
+    });
   });
 });

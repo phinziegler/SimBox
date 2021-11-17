@@ -39,6 +39,39 @@ export default class InputHandler {
     document.getElementById("end").addEventListener("click", () => {
       this.simulator.endSimulation();
     });
+
+    this.simulator.clearSimulatedObjects();
+    this.emulateMouseDragCompletionAtPos(0, 0, 100, 100, "rectangle");
+  }
+
+  emulateMouseDragCompletionAtPos(dragLeftPos, dragTopPos, dragWidth, dragHeight, toolId) {
+    this.toolsHandler.activeTool = toolId;
+    let canvasBoundingRect = this.canvas.getBoundingClientRect();
+    const startX = canvasBoundingRect.left + dragLeftPos;
+    const startY = canvasBoundingRect.top + dragTopPos;
+    const endX = startX + dragWidth;
+    const endY = startY + dragHeight;
+    const mouseDownE = new window.MouseEvent("mousedown", {
+      clientX: startX,
+      clientY: startY,
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseMoveE = new window.MouseEvent("mousemove", {
+      clientX: endX,
+      clientY: endY,
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseUpE = new window.MouseEvent("mouseup", {
+      clientX: endX,
+      clientY: endY,
+      bubbles: true,
+      cancelable: true
+    });
+    this.canvas.dispatchEvent(mouseDownE);
+    this.canvas.dispatchEvent(mouseMoveE);
+    this.canvas.dispatchEvent(mouseUpE);
   }
 
   /**
