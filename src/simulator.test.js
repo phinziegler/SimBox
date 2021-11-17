@@ -65,23 +65,28 @@ describe("Simulator", () => {
 
   describe("Object Creation", () => {
 
-    function EmulateMouseDragCompletion(){
+    function EmulateMouseDragCompletion(dragWidth, dragHeight) {
+      inputHandler.toolsHandler.activeTool = "rectangle";
       let canvasBoundingRect = canvas.getBoundingClientRect();
-      let canvasXCenter = canvasBoundingRect.left + (canvasBoundingRect.width)/2;
-      let canvasYCenter = canvasBoundingRect.top + (canvasBoundingRect.height)/2;
+      const startX = canvasBoundingRect.left;
+      const startY = canvasBoundingRect.top;
+      const endX = startX + dragWidth;
+      const endY = startY + dragHeight;
       const mouseDownE = new window.MouseEvent("mousedown", {
-        clientX: canvasXCenter,
-        clientY: canvasYCenter,
+        clientX: startX,
+        clientY: startY,
         bubbles: true,
         cancelable: true
       });
       const mouseMoveE = new window.MouseEvent("mousemove", {
-        clientX: canvasXCenter + 100,
-        clientY: canvasYCenter + 100,
+        clientX: endX,
+        clientY: endY,
         bubbles: true,
         cancelable: true
       });
       const mouseUpE = new window.MouseEvent("mouseup", {
+        clientX: endX,
+        clientY: endY,
         bubbles: true,
         cancelable: true
       });
@@ -92,9 +97,17 @@ describe("Simulator", () => {
 
     test("should place simulated object from mouse input", () => {
       const previousSimulatedObjectsCount = simulator.simulatedObjects.length;
-      EmulateMouseDragCompletion();
+      EmulateMouseDragCompletion(100, 100);
       const newSimulatedObjectsCount = simulator.simulatedObjects.length;
       expect(newSimulatedObjectsCount == (previousSimulatedObjectsCount + 1)).toBeTruthy();
+    });
+
+    test("should place simulated object from mouse input with correct size", () => {
+      const dragWidth = 200;
+      const dragHeight = 100;
+      EmulateMouseDragCompletion(dragWidth, dragHeight);
+      const simulatedObjBody = simulator.simulatedObjects[simulator.simulatedObjects.length - 1].simulatedObjectBody;
+      expect(simulatedObjBody.width == dragWidth && simulatedObjBody.height == dragHeight).toBeTruthy();
     });
   });
 

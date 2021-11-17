@@ -182,7 +182,7 @@ export default class InputHandler {
 
     let pos = new Vector(Math.floor((e.clientX - rect.left) * scaleX) + 1, Math.floor((e.clientY - rect.top) * scaleY) + 1);
 
-    //console.log(pos.getX() + ", " + pos.getY());
+    //console.log(pos.x + ", " + pos.y);
     return pos;
   }
 }
